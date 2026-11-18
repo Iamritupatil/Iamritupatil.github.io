@@ -11,15 +11,11 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className={styles.page}>
-      <TotemPop />
-      <p className={styles.code}>404</p>
-      <h1 className={styles.title}>You fell into the void.</h1>
-      <p className={styles.text}>
-        Lucky you had a totem. This page doesn&rsquo;t exist, but you live to click another day.
-      </p>
+      <h1 className={styles.code}>404</h1>
       <a className={styles.home} href={routes.home}>
-        <span aria-hidden>←</span> Back home
+        <span aria-hidden>←</span> Home
       </a>
+      <TotemPop />
     </main>
   );
 }

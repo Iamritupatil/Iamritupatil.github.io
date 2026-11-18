@@ -1,87 +1,97 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { playClip, preloadClips } from "@/lib/sfx";
 import styles from "./TotemPop.module.css";
 
-const COLORS = ["#8ee53f", "#5fbf2a", "#3e9a22", "#f5e05a", "#e6b632", "#c9f27a"];
-
-// Seeded so the server and the browser draw the same burst
-function burst(seed: number) {
-  let s = seed;
-  const rnd = () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
-  return Array.from({ length: 64 }, (_, i) => {
-    const angle = rnd() * Math.PI * 2;
-    const dist = 120 + rnd() * 260;
-    return {
-      "--dx": `${Math.cos(angle) * dist}px`,
-      "--dy": `${Math.sin(angle) * dist * 0.75 - 60}px`,
-      "--size": `${8 + Math.floor(rnd() * 3) * 3}px`,
-      "--delay": `${0.12 + rnd() * 0.25}s`,
-      "--dur": `${0.9 + rnd() * 0.9}s`,
-      background: COLORS[i % COLORS.length],
-    } as CSSProperties;
-  });
-}
+const TICKS = 40; // Minecraft: 40 game ticks
+const DURATION = 2000; // = 2 seconds
+const LAYERS = 8; // stacked copies give the sprite Minecraft's 1-pixel item thickness
 
 /**
- * Minecraft's "totem of undying" moment for the 404 page: the totem flies up at you,
- * spins, and a burst of green and gold particles goes off, with the totem sound.
- * Browsers block sound until the visitor interacts, so if it couldn't play on load,
- * the first click or key press pops the totem again with sound.
+ * Minecraft's totem-of-undying animation, using the game's own motion
+ * (GameRenderer.renderItemActivationAnimation): the item flies from far away up to
+ * the screen and back, spinning 900° around its vertical axis, wobbling, and drifting
+ * towards a random corner, over 40 ticks.
  */
 export default function TotemPop() {
-  const [round, setRound] = useState(0);
-  const last = useRef(0);
-  const pop = () => {
-    if (Date.now() - last.current < 400) return; // pointerdown + click of one tap
-    last.current = Date.now();
-    setRound((r) => r + 1);
-    void playClip("totem");
-  };
+  const item = useRef<HTMLDivElement>(null);
+  const raf = useRef(0);
 
-  const popRef = useRef(pop);
-  popRef.current = pop;
+  const run = useCallback((withSound: boolean) => {
+    const el = item.current;
+    if (!el) return;
+    cancelAnimationFrame(raf.current);
+    if (withSound) void playClip("totem");
+    const offX = Math.random() * 2 - 1;
+    const offY = Math.random() * 2 - 1;
+    const start = performance.now();
+    const frame = (now: number) => {
+      const f = Math.min(1, (now - start) / DURATION);
+      const f1 = f * f;
+      const f2 = f * f1;
+      const f3 = 10.25 * f2 * f1 - 24.95 * f1 * f1 + 25.5 * f2 - 13.8 * f1 + 4 * f;
+      const f4 = f3 * Math.PI;
+      const z = -10 + 9 * Math.sin(f4); // distance from the camera: -10 (far) … -1 (in your face)
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const swing = Math.abs(Math.sin(f4 * 2));
+      const k = 2.5 / -z; // perspective
+      const x = offX * (vw / 4) * swing * k;
+      const y = offY * (vh / 4) * swing * k;
+      const scale = 10 / -z; // 1 when far, 10 when closest
+      const spin = 900 * Math.abs(Math.sin(f4));
+      const wobble = 6 * Math.cos(f * 8);
+      el.style.opacity = f >= 1 ? "0" : "1";
+      el.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotateY(${spin}deg) rotateZ(${wobble}deg)`;
+      if (f < 1) raf.current = requestAnimationFrame(frame);
+    };
+    raf.current = requestAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     preloadClips("totem");
-    let armed = false;
+    // Browsers block sound until the visitor interacts: if it can't play on load,
+    // the first click or key press uses the totem again, with sound.
+    let waiting = false;
     const again = (e: Event) => {
-      if ((e.target as Element | null)?.closest?.("a")) return; // leaving: don't pop
-      cleanup();
-      popRef.current();
+      if ((e.target as Element | null)?.closest?.("a")) return;
+      stop();
+      run(true);
     };
-    const cleanup = () => {
+    const stop = () => {
       window.removeEventListener("pointerdown", again);
       window.removeEventListener("keydown", again);
     };
+    run(false);
     playClip("totem").then((played) => {
-      if (played || armed) return;
-      armed = true;
+      if (played || waiting) return;
+      waiting = true;
       window.addEventListener("pointerdown", again);
       window.addEventListener("keydown", again);
     });
-    return cleanup;
-  }, []);
+    return () => {
+      stop();
+      cancelAnimationFrame(raf.current);
+    };
+  }, [run]);
 
   return (
-    <button
-      type="button"
-      data-sfx // plays the totem, not the click
-      className={styles.stage}
-      aria-label="Use the totem again"
-      title="Use the totem again"
-      onClick={pop}
-    >
-      <span key={round} className={styles.anim}>
-        <span className={styles.flash} />
-        <span className={styles.particles} aria-hidden>
-          {burst(round * 7919 + 1).map((style, i) => (
-            <i key={i} style={style} />
-          ))}
-        </span>
-        <img className={styles.totem} src="/images/totem.png" alt="Totem of undying" width={189} height={191} />
-      </span>
-    </button>
+    <div className={styles.overlay} aria-hidden>
+      <div ref={item} className={styles.item}>
+        {Array.from({ length: LAYERS }, (_, i) => (
+          <img
+            key={i}
+            src="/images/totem.png"
+            alt=""
+            className={styles.layer}
+            style={{
+              transform: `translateZ(${(i - (LAYERS - 1) / 2) * 0.9}px)`,
+              filter: i === 0 || i === LAYERS - 1 ? undefined : "brightness(0.62)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
