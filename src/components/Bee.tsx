@@ -82,6 +82,16 @@ export default function Bee() {
         if (mode === "wander") target = nextTarget(pos);
       }
 
+      // while Fruit Run is open, stay out of the banner: no following, fly below it
+      const game = document.documentElement.hasAttribute("data-playing")
+        ? document.querySelector("canvas[data-sfx]")?.getBoundingClientRect()
+        : null;
+      if (game) {
+        mode = "wander";
+        const bottom = game.bottom + scrollY + 60;
+        if (target.y < bottom) target = { x: target.x, y: bottom + 40 + Math.random() * 200, flower: false };
+      }
+
       let goal: { x: number; y: number } = target;
       let speed = target.flower ? 90 : 70;
       if (mode === "follow" && p) {
@@ -109,6 +119,7 @@ export default function Bee() {
       vel.y += ((dist ? (dy / dist) * want : 0) - vel.y) * k;
       pos.x = clampX(pos.x + vel.x * dt);
       pos.y = clampY(pos.y + vel.y * dt);
+      if (game && pos.y < game.bottom + scrollY + 40) pos.y += (game.bottom + scrollY + 40 - pos.y) * Math.min(1, dt * 4);
 
       // face where it's flying (three-quarter view) and bob; on a flower, a small busy wiggle
       if (Math.abs(vel.x) > 6) yaw += ((vel.x > 0 ? 60 : -60) - yaw) * Math.min(1, dt * 5);
