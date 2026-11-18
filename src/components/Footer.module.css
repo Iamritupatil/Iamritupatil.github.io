@@ -97,6 +97,12 @@
   border-radius: 6px;
 }
 
+@media (min-width: 900px) {
+  .contact {
+    zoom: 0.8;
+  }
+}
+
 .copyright {
   margin-top: 38px;
 }

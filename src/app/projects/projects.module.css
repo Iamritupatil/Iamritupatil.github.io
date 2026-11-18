@@ -4,6 +4,12 @@
   padding: 64px 16px 0;
 }
 
+@media (min-width: 900px) {
+  .page {
+    zoom: 0.8;
+  }
+}
+
 .back {
   display: inline-flex;
   gap: 8px;
