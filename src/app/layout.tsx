@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Schibsted_Grotesk } from "next/font/google";
 import { themeInitScript } from "@/lib/theme";
 import ClickSound from "@/components/ClickSound";
@@ -69,6 +70,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={sans.variable}>
         {children}
         <ClickSound />
+        {/* Visitor stats: https://ritupatil.goatcounter.com (no cookies, so no cookie banner) */}
+        {!process.env.NEXT_PUBLIC_PREVIEW && (
+          <Script
+            data-goatcounter="https://ritupatil.goatcounter.com/count"
+            src="https://gc.zgo.at/count.js"
+            strategy="afterInteractive"
+          />
+        )}
         <Bee />
       </body>
     </html>
