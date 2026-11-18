@@ -1,8 +1,8 @@
-/* Chest = 128px cube: base 88px tall, lid 40px (16 × 11 and 16 × 5 pixels of 8px). */
+/* Chest = 128px cube: base 84px tall, lid 44px (matches the texture sheet's seam). */
 .chest {
   --w: 128px;
-  --hb: 88px;
-  --hl: 40px;
+  --hb: 84px;
+  --hl: 44px;
   position: relative;
   display: block;
   width: 200px;
@@ -43,13 +43,13 @@
 /* ---- lid: w × hl × w, hinged along its back-top edge ---- */
 .lid {
   --h: var(--hl);
-  transform-origin: 0 calc(var(--hl) / -2) calc(var(--w) / -2);
+  transform-origin: 0 calc(var(--hl) / 2) calc(var(--w) / -2); /* hinge: back-bottom edge */
   transform: translateY(calc((var(--hb) / -2)));
   transition: transform 0.45s cubic-bezier(0.3, 1.4, 0.55, 1);
 }
 
 .open .lid {
-  transform: translateY(calc((var(--hb) / -2))) rotateX(68deg);
+  transform: translateY(calc((var(--hb) / -2))) rotateX(90deg);
 }
 
 /* cuboid faces (each box sets --h; width and depth are both --w) */
@@ -80,30 +80,21 @@
 .top { transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); }
 .bottom { transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); }
 
-/* inside of the chest and underside of the lid */
+/* inside of the chest: black, framed by the dark rim and a strip of wood */
 .base .top {
-  background: #1c1007;
-  box-shadow: inset 0 0 0 8px #33240f, inset 0 0 0 0 rgba(255, 196, 70, 0);
-  transition: box-shadow 0.4s ease, background 0.4s ease;
-}
-.open .base .top {
-  background: #3a2208;
-  box-shadow: inset 0 0 0 8px #33240f, inset 0 0 40px 10px rgba(255, 196, 70, 0.85);
-}
-.lid .bottom {
-  background: #2a1a0b;
-  box-shadow: inset 0 0 0 8px #33240f;
+  background: #050505;
+  box-shadow: inset 0 0 0 7px #2b1d0c, inset 0 0 0 14px #9c6a2a;
 }
 
 /* iron latch on the front of the lid, hanging over the seam */
 .latch {
   position: absolute;
-  left: 24px;
-  bottom: -16px;
+  left: 56px;
+  top: 24px;
   width: 16px;
-  height: 32px;
-  background: linear-gradient(to right, #e0e0e0 0 50%, #a8a8a8 50% 100%);
-  box-shadow: inset 0 0 0 3px #555;
+  height: 30px;
+  background: linear-gradient(to right, #e6e6e6 0 55%, #b4b4b4 55% 100%);
+  box-shadow: inset 0 0 0 2px #6f6f6f, 2px 2px 0 rgba(0, 0, 0, 0.35);
 }
 
 /* soft shadow on the ground (outside the 3D scene so it stays flat) */

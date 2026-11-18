@@ -2,6 +2,12 @@
   position: relative;
   margin-top: -55px; /* avatar overlaps the cover */
   padding-left: 23px;
+  transition: margin-top 0.35s cubic-bezier(0.3, 1.2, 0.5, 1);
+}
+
+/* the game takes the whole banner: slide the profile down out of its way */
+:global(:root[data-playing]) .profile {
+  margin-top: 20px;
 }
 
 /* The header overlaps the bottom of the cover: let clicks pass through its empty

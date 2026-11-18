@@ -42,6 +42,12 @@ export default function Cover() {
 
   const play = () => setGame(banners[slide].src);
 
+  // While the game is open the profile row moves out from under the banner
+  useEffect(() => {
+    if (game) document.documentElement.dataset.playing = "";
+    else delete document.documentElement.dataset.playing;
+  }, [game]);
+
   return (
     <section className={styles.cover}>
       {banners.map((b, i) => (
