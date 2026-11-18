@@ -70,10 +70,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={sans.variable}>
         {children}
         <ClickSound />
-        {/* Visitor stats: https://ritupatil.goatcounter.com (no cookies, so no cookie banner) */}
+        {/* Visitor stats: https://ritu-patil.goatcounter.com (no cookies, so no cookie banner) */}
         {!process.env.NEXT_PUBLIC_PREVIEW && (
           <Script
-            data-goatcounter="https://ritupatil.goatcounter.com/count"
+            data-goatcounter="https://ritu-patil.goatcounter.com/count"
             src="https://gc.zgo.at/count.js"
             strategy="afterInteractive"
           />
