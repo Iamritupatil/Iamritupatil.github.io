@@ -16,7 +16,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(profile.site),
   title: "Ritu Patil",
   description: `${profile.summary} ${work[0].role} at ${work[0].org}.`,
-  openGraph: { title: "Ritu Patil", description: profile.summary, url: profile.site, type: "profile" },
+  // link previews (X, LinkedIn, WhatsApp, Slack, iMessage…); the image is app/opengraph-image.png
+  openGraph: {
+    title: "Ritu Patil",
+    description: profile.summary,
+    url: profile.site,
+    siteName: "Ritu Patil",
+    type: "profile",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ritu Patil",
+    description: profile.summary,
+    creator: "@iamritupatil",
+    site: "@iamritupatil",
+  },
   alternates: { types: { "text/plain": "/llms.txt" } },
   // profile photo; the ?v= makes browsers drop any favicon they cached before
   icons: {
