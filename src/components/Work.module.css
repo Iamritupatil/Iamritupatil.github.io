@@ -40,6 +40,11 @@
   font-weight: 700;
 }
 
+img.logo {
+  object-fit: contain;
+  background: #fff;
+}
+
 .text {
   min-width: 0;
 }

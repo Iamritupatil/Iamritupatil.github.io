@@ -51,11 +51,6 @@ export default function Cover() {
         <span aria-hidden>▶</span> Play Fruit Run
       </button>
 
-      <a className={styles.lofi} href={profile.lofiRoom.href}>
-        <img src="/icons/equalizer.svg" alt="" width={14} height={14} />
-        {profile.lofiRoom.label}
-      </a>
-
       {game && <FruitRun background={game} onClose={() => setGame(null)} />}
     </section>
   );

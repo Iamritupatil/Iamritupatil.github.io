@@ -11,6 +11,9 @@ export default function YouTubeEmbed({ id, title }: { id: string; title: string 
   const [playing, setPlaying] = useState(false);
   const watchUrl = `https://www.youtube.com/watch?v=${id}`;
 
+  // The claude.ai preview can't embed other sites, so there the button opens YouTube instead.
+  const linkOnly = process.env.NEXT_PUBLIC_PREVIEW === "1";
+
   if (playing) {
     return (
       <iframe
@@ -26,9 +29,15 @@ export default function YouTubeEmbed({ id, title }: { id: string; title: string 
 
   return (
     <div className={styles.poster} style={{ backgroundImage: `url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)` }}>
-      <button className={styles.play} onClick={() => setPlaying(true)} aria-label={`Play: ${title}`}>
-        <span aria-hidden>▶</span>
-      </button>
+      {linkOnly ? (
+        <a className={styles.play} href={watchUrl} target="_blank" rel="noreferrer" aria-label={`Play on YouTube: ${title}`}>
+          <span aria-hidden>▶</span>
+        </a>
+      ) : (
+        <button className={styles.play} onClick={() => setPlaying(true)} aria-label={`Play: ${title}`}>
+          <span aria-hidden>▶</span>
+        </button>
+      )}
       <a className={styles.watch} href={watchUrl} target="_blank" rel="noreferrer">
         Watch on YouTube ↗
       </a>

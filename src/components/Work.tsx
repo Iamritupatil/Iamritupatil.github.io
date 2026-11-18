@@ -9,9 +9,13 @@ export default function Work() {
         {work.map((w) => {
           const body = (
             <>
-              <span className={styles.logo} style={{ background: w.tint }} aria-hidden>
-                {w.mark}
-              </span>
+              {w.logo ? (
+                <img className={styles.logo} src={w.logo} alt="" width={52} height={52} />
+              ) : (
+                <span className={styles.logo} style={{ background: w.tint }} aria-hidden>
+                  {w.mark}
+                </span>
+              )}
               <div className={styles.text}>
                 <h3 className={styles.org}>{w.org}</h3>
                 <p className={styles.role}>
