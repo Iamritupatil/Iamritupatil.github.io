@@ -14,7 +14,7 @@
 - Radi-AI Bharat: AI radiology assistant that analyses X-rays and highlights fracture areas. https://github.com/iamritupatil/radi-ai-bharat-prototype
 - Notchman Community: The open-source version of Notchman for desktop and Mac. https://notchman.app · https://github.com/iamritupatil/notchman-community
 - MiniClay AI: Turn a prompt into a fine-tuned AI model: data sourcing, cleaning and fine-tuning handled for you. https://www.miniclayai.com/
-- Healthcare Data Normalization Engine https://github.com/iamritupatil/Healthcare-Data-Normalization-Engine
+- Healthcare Data Normalization Engine: Turns patient records from different healthcare systems into one FHIR-based format, with a traceable history of every change. https://github.com/iamritupatil/Healthcare-Data-Normalization-Engine
 - Wispr Max https://github.com/iamritupatil/wispr-max-releases-
 
 ## Skills
@@ -25,4 +25,5 @@ Python, FastAPI, PostgreSQL, Redis, TypeScript, Docker
 - GitHub: https://github.com/iamritupatil
 - X: https://x.com/iamritupatil
 - MiniClay AI: https://www.miniclayai.com/
+- Instagram: https://www.instagram.com/iamritupatil/
 - Email: ritu.patil.dilip@gmail.com
