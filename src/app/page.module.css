@@ -21,18 +21,8 @@
   z-index: 2;
 }
 
-/* Music disc — in the empty space left of the content column, beside the profile */
-.disc {
-  display: none;
-  position: absolute;
-  top: 400px;
-  right: calc(100% + 70px);
-  z-index: 2;
-}
-
 @media (min-width: 1200px) {
-  .lantern,
-  .disc {
+  .lantern {
     display: block;
   }
 }

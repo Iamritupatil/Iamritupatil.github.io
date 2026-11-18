@@ -5,7 +5,6 @@ import Contributions from "@/components/Contributions";
 import ProjectCard from "@/components/ProjectCard";
 import { projects, routes } from "@/data/content";
 import Lantern from "@/components/Lantern";
-import Disc from "@/components/Disc";
 import Footer from "@/components/Footer";
 import AgentView from "@/components/AgentView";
 import styles from "./page.module.css";
@@ -16,9 +15,6 @@ export default function Home() {
       <main className={styles.page}>
         <div className={styles.lantern}>
           <Lantern />
-        </div>
-        <div className={styles.disc}>
-          <Disc />
         </div>
         <Cover />
         <Profile />
