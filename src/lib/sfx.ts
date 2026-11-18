@@ -110,6 +110,106 @@ function creak(c: AudioContext, from: number, to: number, dur: number, vol: numb
   lfo.stop(t + dur + 0.05);
 }
 
+/**
+ * Looping campfire + snowfall ambience. Returns a function that fades it out.
+ * Fire: a low warm rumble plus random wood crackles and pops.
+ * Snow: a very soft, slowly breathing hiss of wind.
+ */
+export function startCampfire(): (() => void) | null {
+  const c = ac();
+  if (!c) return null;
+  const master = c.createGain();
+  master.gain.setValueAtTime(0.0001, c.currentTime);
+  master.gain.exponentialRampToValueAtTime(1, c.currentTime + 1.2);
+  master.connect(c.destination);
+
+  const loopNoise = () => {
+    const s = c.createBufferSource();
+    s.buffer = noiseBuffer(c);
+    s.loop = true;
+    s.start();
+    return s;
+  };
+
+  // fire rumble
+  const rumble = loopNoise();
+  const rumbleF = c.createBiquadFilter();
+  rumbleF.type = "lowpass";
+  rumbleF.frequency.value = 260;
+  const rumbleG = c.createGain();
+  rumbleG.gain.value = 0.16;
+  rumble.connect(rumbleF).connect(rumbleG).connect(master);
+  const flick = c.createOscillator();
+  const flickG = c.createGain();
+  flick.frequency.value = 0.7;
+  flickG.gain.value = 0.05;
+  flick.connect(flickG).connect(rumbleG.gain);
+  flick.start();
+
+  // snowy wind: soft hiss that slowly swells and fades
+  const wind = loopNoise();
+  const windF = c.createBiquadFilter();
+  windF.type = "bandpass";
+  windF.frequency.value = 700;
+  windF.Q.value = 0.6;
+  const windG = c.createGain();
+  windG.gain.value = 0.035;
+  wind.connect(windF).connect(windG).connect(master);
+  const breathe = c.createOscillator();
+  const breatheG = c.createGain();
+  breathe.frequency.value = 0.08;
+  breatheG.gain.value = 0.02;
+  breathe.connect(breatheG).connect(windG.gain);
+  const sweep = c.createGain();
+  sweep.gain.value = 250;
+  breathe.connect(sweep).connect(windF.frequency);
+  breathe.start();
+
+  // crackles: little bursts at random times, now and then a bigger pop
+  let timer = 0;
+  const crackle = () => {
+    const out = master;
+    const t = c.currentTime;
+    const n = 1 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < n; i++) {
+      const s = c.createBufferSource();
+      s.buffer = noiseBuffer(c);
+      const f = c.createBiquadFilter();
+      f.type = "bandpass";
+      f.frequency.value = 1800 + Math.random() * 3500;
+      f.Q.value = 3;
+      const g = c.createGain();
+      const at = t + i * (0.015 + Math.random() * 0.04);
+      const big = Math.random() < 0.12;
+      const vol = big ? 0.5 : 0.08 + Math.random() * 0.14;
+      const dur = big ? 0.06 : 0.012 + Math.random() * 0.025;
+      g.gain.setValueAtTime(vol, at);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+      s.connect(f).connect(g).connect(out);
+      s.start(at, Math.random() * 0.8);
+      s.stop(at + dur + 0.02);
+    }
+    timer = window.setTimeout(crackle, 60 + Math.random() * 380);
+  };
+  crackle();
+
+  return () => {
+    clearTimeout(timer);
+    const t = c.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setValueAtTime(master.gain.value, t);
+    master.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+    window.setTimeout(() => {
+      [rumble, wind, flick, breathe].forEach((n) => {
+        try {
+          n.stop();
+        } catch {}
+      });
+      master.disconnect();
+    }, 700);
+  };
+}
+
 export const sfx = {
   chestOpen() {
     const c = ac();

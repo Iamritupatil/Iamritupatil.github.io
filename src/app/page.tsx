@@ -3,7 +3,7 @@ import Profile from "@/components/Profile";
 import Work from "@/components/Work";
 import Contributions from "@/components/Contributions";
 import ProjectChests from "@/components/ProjectChests";
-import MotivationVideo from "@/components/MotivationVideo";
+import Campfire from "@/components/Campfire";
 import Lantern from "@/components/Lantern";
 import Footer from "@/components/Footer";
 import AgentView from "@/components/AgentView";
@@ -23,7 +23,7 @@ export default function Home() {
           <Work />
           <Contributions />
           <ProjectChests />
-          <MotivationVideo className={styles.slotLarge} />
+          <Campfire className={styles.slotLarge} />
         </div>
       </main>
       <Footer />

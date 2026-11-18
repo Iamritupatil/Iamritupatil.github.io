@@ -143,10 +143,10 @@ export const allProjects: Repo[] = [
   },
 ];
 
-// Card just above the footer
-export const motivationVideo = {
-  src: "", // TODO: "/videos/motivation.mp4"
-  poster: "",
+// Cozy scene just above the footer. An animated .gif/.webp or an .mp4/.webm also works here.
+export const campfire = {
+  src: "/images/campfire.jpg",
+  alt: "Snowy pixel campfire with a sleeping fox",
 };
 
 export const contact = {
