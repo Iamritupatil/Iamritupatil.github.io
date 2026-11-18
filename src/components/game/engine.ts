@@ -2,6 +2,8 @@
 // A caveman runs through the lofi cave, jumps over rocks and eats fruit for points.
 // Everything is drawn as pixel art on one canvas; no assets besides the banner photo.
 
+import { sfx } from "@/lib/sfx";
+
 type Palette = Record<string, string>;
 type Sprite = { w: number; h: number; img: HTMLCanvasElement };
 
@@ -164,13 +166,16 @@ export function startFruitRun(canvas: HTMLCanvasElement, opts: FruitRunOptions =
     if (mode === "ready") {
       reset();
       mode = "running";
+      sfx.start();
     } else if (mode === "over") {
       if (performance.now() - overAt < 450) return; // don't restart by accident
       reset();
       mode = "running";
+      sfx.start();
       return;
     }
     if (mode === "running" && onGround) {
+      sfx.jump();
       vy = -JUMP_V;
       onGround = false;
     }
@@ -182,6 +187,7 @@ export function startFruitRun(canvas: HTMLCanvasElement, opts: FruitRunOptions =
   };
 
   const gameOver = () => {
+    sfx.hurt();
     mode = "over";
     overAt = performance.now();
     const s = score();
@@ -250,6 +256,7 @@ export function startFruitRun(canvas: HTMLCanvasElement, opts: FruitRunOptions =
     fruits = fruits.filter((f) => {
       if (hit(pbx - 2, pby - 2, pbw + 4, pbh + 4, f.x, f.y, f.s.w, f.s.h)) {
         fruitPoints += f.points!;
+        sfx.eat(f.points);
         popups.push({ x: f.x, y: f.y, text: `+${f.points}`, t: 0 });
         return false;
       }

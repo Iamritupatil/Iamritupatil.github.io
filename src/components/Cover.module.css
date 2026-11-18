@@ -73,6 +73,24 @@
 
 
 
+.sound {
+  position: absolute;
+  top: 22px;
+  right: 81px; /* left of the sun */
+  width: 49px;
+  height: 50px;
+  border-radius: 4px;
+  background: var(--chip-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sound:focus-visible {
+  outline: 2px solid #e8e8e8;
+  outline-offset: 2px;
+}
+
 /* Banner slideshow: photos crossfade; clicking one opens the game */
 .image {
   position: absolute;
@@ -170,6 +188,10 @@
   .theme {
     top: 14px;
     right: 14px;
+  }
+  .sound {
+    top: 14px;
+    right: 71px;
   }
   .play {
     right: 14px;

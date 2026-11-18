@@ -2,12 +2,11 @@ import Cover from "@/components/Cover";
 import Profile from "@/components/Profile";
 import Work from "@/components/Work";
 import Contributions from "@/components/Contributions";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectChests from "@/components/ProjectChests";
 import MotivationVideo from "@/components/MotivationVideo";
 import Lantern from "@/components/Lantern";
 import Footer from "@/components/Footer";
 import AgentView from "@/components/AgentView";
-import { projects, routes } from "@/data/content";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -21,20 +20,10 @@ export default function Home() {
         <Profile />
         <AgentView />
         <div className="human-only">
-        <Work />
-        <Contributions />
-
-        <section className={styles.projects}>
-          <ProjectCard project={projects.featured} featured />
-          <div className={styles.pair}>
-            <ProjectCard project={projects.pair[0]} />
-            <ProjectCard project={projects.pair[1]} />
-          </div>
-          <a className={styles.allProjects} href={routes.projects}>
-            All projects <span aria-hidden>→</span>
-          </a>
-        </section>
-        <MotivationVideo className={styles.slotLarge} />
+          <Work />
+          <Contributions />
+          <ProjectChests />
+          <MotivationVideo className={styles.slotLarge} />
         </div>
       </main>
       <Footer />

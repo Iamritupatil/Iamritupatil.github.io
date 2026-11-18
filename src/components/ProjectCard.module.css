@@ -39,6 +39,7 @@
   border: 1px solid var(--border);
   aspect-ratio: 2 / 1;
   background: var(--bg);
+  max-height: 260px;
 }
 
 .shot img {

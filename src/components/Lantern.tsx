@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { toggleTheme } from "@/lib/theme";
+import { sfx } from "@/lib/sfx";
 import styles from "./Lantern.module.css";
 
 const U = 6; // one pixel-art "pixel", in CSS px
@@ -62,7 +63,10 @@ export default function Lantern({ className = "" }: { className?: string }) {
 
   const release = () => {
     if (startY.current === null) return;
-    if (pull >= TRIGGER) toggleTheme();
+    if (pull >= TRIGGER) {
+      toggleTheme();
+      sfx.lightSwitch();
+    } else if (pull > 4) sfx.chainClink();
     startY.current = null;
     setDragging(false);
     setPull(0);
@@ -82,6 +86,7 @@ export default function Lantern({ className = "" }: { className?: string }) {
         startY.current = e.clientY;
         moved.current = false;
         setDragging(true);
+        sfx.chainClink();
       }}
       onPointerMove={(e) => {
         if (startY.current === null) return;
@@ -93,7 +98,10 @@ export default function Lantern({ className = "" }: { className?: string }) {
       onPointerCancel={release}
       onClick={() => {
         // Keyboard / plain click toggles too; a drag already handled it on release.
-        if (!moved.current) toggleTheme();
+        if (!moved.current) {
+          toggleTheme();
+          sfx.lightSwitch();
+        }
         moved.current = false;
       }}
     >

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { profile } from "@/data/content";
 import { toggleTheme } from "@/lib/theme";
+import { setSound, sfx, soundOn } from "@/lib/sfx";
 import FruitRun from "./game/FruitRun";
 import styles from "./Cover.module.css";
 
@@ -13,7 +14,16 @@ export default function Cover() {
   const [mode, setMode] = useState<Mode>("human");
   const [slide, setSlide] = useState(0);
   const [game, setGame] = useState<string | null>(null); // background of the open game
+  const [sound, setSoundState] = useState(true);
   const banners = profile.banners;
+
+  // Speaker button state (stored per visitor)
+  useEffect(() => {
+    const sync = () => setSoundState(soundOn());
+    sync();
+    window.addEventListener("soundchange", sync);
+    return () => window.removeEventListener("soundchange", sync);
+  }, []);
 
   // Banner slideshow (paused while the game is open or the tab is hidden)
   useEffect(() => {
@@ -69,7 +79,33 @@ export default function Cover() {
       </div>
 
       {/* Sun in the dark theme, moon in the light theme (swapped in CSS, no flash) */}
-      <button className={styles.theme} aria-label="Switch the lights" onClick={() => toggleTheme()}>
+      <button
+        className={styles.sound}
+        aria-label={sound ? "Turn sound off" : "Turn sound on"}
+        aria-pressed={sound}
+        onClick={() => {
+          setSound(!sound);
+          if (!sound) sfx.chainClink();
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 10 10" shapeRendering="crispEdges" aria-hidden>
+          <path d="M1 4h2v2H1zM3 3h1v4H3zM4 2h1v6H4z" fill="#BBC3AE" />
+          {sound ? (
+            <path d="M6 4h1v2H6zM8 2h1v1H8zM8 7h1v1H8zM9 3h1v4H9z" fill="#E4BD66" />
+          ) : (
+            <path d="M6 3h1v1H6zM7 4h1v2H7zM6 6h1v1H6zM8 3h1v1H8zM8 6h1v1H8z" fill="#c85a5a" />
+          )}
+        </svg>
+      </button>
+
+      <button
+        className={styles.theme}
+        aria-label="Switch the lights"
+        onClick={() => {
+          toggleTheme();
+          sfx.lightSwitch();
+        }}
+      >
         <img className={styles.sun} src="/icons/sun.svg" alt="" width={24} height={24} />
         <img className={styles.moon} src="/icons/moon.svg" alt="" width={24} height={24} />
       </button>
