@@ -10,6 +10,7 @@
 }
 
 .code {
+  display: flex;
   font-size: clamp(96px, 22vw, 220px);
   line-height: 1;
   font-weight: 800;
@@ -29,4 +30,28 @@
 .home:hover {
   color: var(--text);
   text-decoration: underline;
+}
+
+.zero {
+  position: relative;
+}
+
+/* ✕ ✕ eyes inside the 0 */
+.face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.34em;
+  transform: translate(-50%, -62%);
+  color: var(--text-strong);
+}
+
+/* the meadow from the home page, along the bottom (the bee visits it too) */
+.garden {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 176px;
+  pointer-events: none;
 }

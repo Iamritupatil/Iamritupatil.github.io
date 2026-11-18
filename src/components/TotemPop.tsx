@@ -15,6 +15,7 @@ const LAYERS = 8; // stacked copies give the sprite Minecraft's 1-pixel item thi
  */
 export default function TotemPop() {
   const item = useRef<HTMLDivElement>(null);
+  const blur = useRef<HTMLDivElement>(null);
   const raf = useRef(0);
 
   const run = useCallback((withSound: boolean) => {
@@ -22,6 +23,7 @@ export default function TotemPop() {
     if (!el) return;
     cancelAnimationFrame(raf.current);
     if (withSound) void playClip("totem");
+    blur.current?.setAttribute("data-on", ""); // the page goes blurry while the totem pops
     const offX = Math.random() * 2 - 1;
     const offY = Math.random() * 2 - 1;
     const start = performance.now();
@@ -42,6 +44,7 @@ export default function TotemPop() {
       const spin = 900 * Math.abs(Math.sin(f4));
       const wobble = 6 * Math.cos(f * 8);
       el.style.opacity = f >= 1 ? "0" : "1";
+      if (f > 0.85) blur.current?.removeAttribute("data-on");
       el.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotateY(${spin}deg) rotateZ(${wobble}deg)`;
       if (f < 1) raf.current = requestAnimationFrame(frame);
     };
@@ -76,6 +79,8 @@ export default function TotemPop() {
   }, [run]);
 
   return (
+    <>
+    <div ref={blur} className={styles.blur} aria-hidden />
     <div className={styles.overlay} aria-hidden>
       <div ref={item} className={styles.item}>
         {Array.from({ length: LAYERS }, (_, i) => (
@@ -92,5 +97,6 @@ export default function TotemPop() {
         ))}
       </div>
     </div>
+    </>
   );
 }
