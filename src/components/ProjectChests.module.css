@@ -1,32 +1,88 @@
-.section {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
+/* 3 × 2 grid of chests, no cards around them (matches the Figma) */
+.grid {
+  margin-top: 72px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px 24px;
+  justify-items: center;
 }
 
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 0 8px;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
 
+.slot:hover {
+  transform: translateY(-4px);
+}
 
-.hint {
-  font-size: 15px;
+.slot:focus-visible {
+  outline: 2px solid var(--c4);
+  outline-offset: 4px;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.slot:hover .name,
+.active .name {
+  color: var(--text);
+}
+
+/* the panel under the chests: empty until a chest is opened */
+.loot {
+  margin-top: 56px;
+  min-height: 270px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty {
+  font-size: 16px;
   color: var(--muted);
 }
 
-/* the opened project's card */
-.card {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.reveal {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  animation: reveal 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.reveal:not(:has(.shot)) {
+  grid-template-columns: 1fr;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .shot {
   display: block;
-  margin-bottom: 6px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
   aspect-ratio: 2 / 1;
-  max-height: 300px;
 }
 
 .shot img {
@@ -34,6 +90,13 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
 .cardHead {
@@ -44,8 +107,9 @@
 }
 
 .cardHead h2 {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
+  line-height: 1.15;
 }
 
 .lang {
@@ -60,7 +124,6 @@
   font-size: 17px;
   line-height: 1.5;
   color: var(--muted);
-  max-width: 60ch;
 }
 
 .links {
@@ -78,102 +141,19 @@
   text-decoration: underline;
 }
 
-.row {
-  margin-top: 17px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-/* One chest "slot": the chest sits on a little block of grass */
-.slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 34px 16px 22px;
-  border-radius: 24px;
-  border: 1px solid var(--border);
-  background:
-    linear-gradient(to bottom, transparent 0 62%, rgba(90, 168, 58, 0.18) 62% 100%),
-    var(--card-bg);
-  text-align: center;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.slot:hover {
-  border-color: var(--muted);
-  transform: translateY(-2px);
-}
-
-.slot:focus-visible {
-  outline: 2px solid var(--c4);
-  outline-offset: 3px;
-}
-
-.active {
-  border-color: #c9953f;
-  box-shadow: 0 0 0 1px #c9953f inset, 0 10px 40px rgba(255, 190, 70, 0.12);
-}
-
-.name {
-  margin-top: 14px;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.line {
-  font-size: 15px;
-  color: var(--muted);
-}
-
-.loot {
-  margin-top: 16px;
-}
-
-.loot:empty {
-  margin-top: 0;
-}
-
-/* The opened project rises out of the chest */
-.reveal {
-  animation: reveal 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-  transform-origin: 50% 0;
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(-14px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-
-
-@media (max-width: 700px) {
-  .row {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-  }
-  .slot {
-    padding: 22px 6px 14px;
-  }
-  .name {
-    font-size: 15px;
-    margin-top: 8px;
-  }
-  .line {
-    display: none;
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 8px;
   }
   .slot > span:first-child {
-    zoom: 0.75;
+    zoom: 0.7;
   }
-  .hint {
-    font-size: 13px;
+  .loot {
+    margin-top: 32px;
+    padding: 20px;
+  }
+  .reveal {
+    grid-template-columns: 1fr;
   }
 }

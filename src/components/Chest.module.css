@@ -1,95 +1,149 @@
+/* Chest = 128px cube: base 88px tall, lid 40px (16 × 11 and 16 × 5 pixels of 8px). */
 .chest {
+  --w: 128px;
+  --hb: 88px;
+  --hl: 40px;
   position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  perspective: 260px;
-  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.35));
-}
-
-.chest svg {
   display: block;
+  width: 200px;
+  height: 230px;
 }
 
-/* The lid hinges along its bottom edge and tips back when opened */
+/* isometric view: turn the chest 45° and tilt it towards the viewer */
+.scene {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg) rotateY(-45deg);
+}
+
+.box {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  backface-visibility: hidden;
+}
+
+/* ---- base: w × hb × w, sitting with its top at the lid's hinge line ---- */
+.base {
+  --h: var(--hb);
+  transform: translateY(calc(var(--hl) / 2));
+}
+
+/* ---- lid: w × hl × w, hinged along its back-top edge ---- */
 .lid {
-  position: relative;
-  z-index: 2;
-  display: block;
-  transform-origin: 50% 100%;
-  transition: transform 0.38s cubic-bezier(0.3, 1.5, 0.6, 1);
+  --h: var(--hl);
+  transform-origin: 0 calc(var(--hl) / -2) calc(var(--w) / -2);
+  transform: translateY(calc((var(--hb) / -2)));
+  transition: transform 0.45s cubic-bezier(0.3, 1.4, 0.55, 1);
 }
 
 .open .lid {
-  transform: translateY(-14px) rotateX(58deg);
+  transform: translateY(calc((var(--hb) / -2))) rotateX(68deg);
 }
 
-/* Dark inside of the chest with a golden glow, visible while open */
-.inside {
+/* cuboid faces (each box sets --h; width and depth are both --w) */
+.front,
+.back {
+  width: var(--w);
+  height: var(--h);
+  margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+}
+.front { transform: translateZ(calc(var(--w) / 2)); }
+.back { transform: rotateY(180deg) translateZ(calc(var(--w) / 2)); }
+
+.left,
+.right {
+  width: var(--w);
+  height: var(--h);
+  margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+}
+.right { transform: rotateY(90deg) translateZ(calc(var(--w) / 2)); }
+.left { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); }
+
+.top,
+.bottom {
+  width: var(--w);
+  height: var(--w);
+  margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2);
+}
+.top { transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); }
+.bottom { transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); }
+
+/* inside of the chest and underside of the lid */
+.base .top {
+  background: #1c1007;
+  box-shadow: inset 0 0 0 8px #33240f, inset 0 0 0 0 rgba(255, 196, 70, 0);
+  transition: box-shadow 0.4s ease, background 0.4s ease;
+}
+.open .base .top {
+  background: #3a2208;
+  box-shadow: inset 0 0 0 8px #33240f, inset 0 0 40px 10px rgba(255, 196, 70, 0.85);
+}
+.lid .bottom {
+  background: #2a1a0b;
+  box-shadow: inset 0 0 0 8px #33240f;
+}
+
+/* iron latch on the front of the lid, hanging over the seam */
+.latch {
   position: absolute;
-  z-index: 1;
-  top: 30px;
-  left: 6px;
-  right: 6px;
-  height: 0;
-  background: #120a04;
-  box-shadow: 0 0 0 rgba(255, 196, 70, 0);
-  transition: height 0.3s ease, box-shadow 0.3s ease;
+  left: 24px;
+  bottom: -16px;
+  width: 16px;
+  height: 32px;
+  background: linear-gradient(to right, #e0e0e0 0 50%, #a8a8a8 50% 100%);
+  box-shadow: inset 0 0 0 3px #555;
 }
 
-.open .inside {
-  height: 10px;
-  top: 24px;
-  box-shadow: 0 -10px 28px rgba(255, 196, 70, 0.75);
+/* soft shadow on the ground (outside the 3D scene so it stays flat) */
+.shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 170px;
+  height: 46px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.45), transparent);
 }
 
-.base {
-  position: relative;
-  z-index: 3;
-  display: block;
-}
-
-/* little pixel sparkles rising out of an open chest */
+/* sparkles rising out of an open chest */
 .sparkles {
   position: absolute;
-  z-index: 1;
-  top: 20px;
   left: 0;
   right: 0;
+  top: 40px;
   pointer-events: none;
 }
-
 .sparkles i {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   background: #ffd75e;
   opacity: 0;
 }
-
-.sparkles i:nth-child(1) { left: 22%; }
-.sparkles i:nth-child(2) { left: 42%; width: 3px; height: 3px; }
-.sparkles i:nth-child(3) { left: 61%; }
-.sparkles i:nth-child(4) { left: 78%; width: 3px; height: 3px; }
-
-.open .sparkles i {
-  animation: rise 1.6s ease-out infinite;
-}
-
+.sparkles i:nth-child(1) { left: 34%; }
+.sparkles i:nth-child(2) { left: 46%; width: 4px; height: 4px; }
+.sparkles i:nth-child(3) { left: 57%; }
+.sparkles i:nth-child(4) { left: 66%; width: 4px; height: 4px; }
+.open .sparkles i { animation: rise 1.6s ease-out infinite; }
 .open .sparkles i:nth-child(2) { animation-delay: 0.35s; }
 .open .sparkles i:nth-child(3) { animation-delay: 0.7s; }
 .open .sparkles i:nth-child(4) { animation-delay: 1.05s; }
 
 @keyframes rise {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-34px);
-  }
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px); }
 }
