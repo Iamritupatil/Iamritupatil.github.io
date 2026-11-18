@@ -1,11 +1,9 @@
 import { profile, socials } from "@/data/content";
-import Disc from "./Disc";
 import styles from "./Profile.module.css";
 
 export default function Profile() {
   return (
     <section className={styles.profile}>
-      <Disc />
       <div className={styles.header}>
         <div className={styles.avatar}>
           <img src={profile.photo} alt={profile.name} />

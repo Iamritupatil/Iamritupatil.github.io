@@ -1,9 +1,5 @@
 .wrap {
-  position: absolute;
-  right: 24px;
-  top: 76px;
-  z-index: 3;
-  pointer-events: auto;
+  position: relative;
 }
 
 .disc {
@@ -19,7 +15,7 @@
   width: 75px; /* 5 × the 15 px sprite */
   height: 50px;
   image-rendering: pixelated;
-  animation: turn 7s linear infinite;
+  animation: shake 2.4s ease-in-out infinite;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
 }
 
@@ -27,26 +23,29 @@
   transform: rotate(-14deg) scale(1.08);
 }
 
-/* playing: spins faster and bobs, like it's on a jukebox */
+/* playing: rocks on its centre like a record turning in a player */
 .playing img {
-  animation: turn 1.6s linear infinite, bob 0.8s ease-in-out infinite alternate;
+  animation: rock 0.9s ease-in-out infinite;
 }
 
-@keyframes turn {
-  to {
-    rotate: 360deg;
-  }
+/* idle: just a little shake, so it feels alive */
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(2.5deg) translateY(-1px); }
+  50% { transform: rotate(0deg) translateY(0); }
+  75% { transform: rotate(-2.5deg) translateY(1px); }
 }
 
-@keyframes bob {
-  to {
-    translate: 0 -3px;
-  }
+@keyframes rock {
+  0%, 100% { transform: rotate(-6deg) translateY(0) scaleX(1); }
+  25% { transform: rotate(0deg) translateY(-3px) scaleX(0.96); }
+  50% { transform: rotate(6deg) translateY(0) scaleX(1); }
+  75% { transform: rotate(0deg) translateY(-3px) scaleX(0.96); }
 }
 
 .player {
   position: absolute;
-  right: 0;
+  left: 0;
   top: calc(100% + 8px);
   width: 340px;
   border-radius: 14px;
@@ -64,20 +63,6 @@
   from {
     opacity: 0;
     transform: translateY(-8px) scale(0.96);
-  }
-}
-
-@media (max-width: 600px) {
-  .wrap {
-    right: 8px;
-    top: 64px;
-  }
-  .disc img {
-    width: 60px;
-    height: 40px;
-  }
-  .player {
-    width: min(340px, calc(100vw - 32px));
   }
 }
 
