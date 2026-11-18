@@ -5,6 +5,10 @@ import { campfire } from "@/data/content";
 import { soundOn, startCampfire } from "@/lib/sfx";
 import styles from "./Campfire.module.css";
 
+// MingCute icons (Iconify): fire-fill, stop-circle-fill
+const FIRE = "m14.995 6.287l.731-1.475c.588.588 1.189 1.161 1.727 1.796a18.4 18.4 0 0 1 1.98 2.837c1.378 2.435 2.018 4.997 1.224 7.753a6.23 6.23 0 0 1-3.4 3.974c-1.305.608-2.709.774-4.123.93c.966-.606 1.47-1.253 1.866-2.329c.386-1.05.293-2.043-.217-3.039c-.408-.797-1.069-1.428-1.484-2.222c-.333-.637-.527-1.359-.752-2.033c-1.001.626-2.021 1.226-2.881 2.046c-1.495 1.426-2.321 3.237-1.51 5.248c.174.429.417.823.712 1.18c.38.458.83.81 1.327 1.13c-1.376-.152-2.445-.334-3.675-1.019c-3.214-1.79-4.599-5.347-3.014-8.739c.528-1.13 1.311-2.125 2.2-2.993l1.139-1.051q.67-.662 1.243-1.407c.78-1.013 1.448-2.152 1.784-3.394c.157-.58.307-1.635.383-2.093c.439.263 1.391.81 1.897 1.177c1.36.988 2.199 2.191 2.843 3.723";
+const STOP = "M12.746 2.027a10 10 0 0 1 4.699 1.584c5.563 3.618 6.124 11.579 1.116 15.936a10 10 0 0 1-2.998 1.8a10.1 10.1 0 0 1-4.309.626a10 10 0 0 1-4.699-1.584C.992 16.771.431 8.81 5.439 4.453a10 10 0 0 1 2.998-1.8a10.1 10.1 0 0 1 4.309-.626M10 8c-1.146.046-1.954.854-2 2v4c.017.43.129.83.386 1.181c.385.526.973.793 1.614.819h4c.43-.017.83-.129 1.181-.386c.526-.385.793-.973.819-1.614v-4c-.046-1.146-.854-1.954-2-2Z";
+
 /**
  * The cozy campfire scene above the footer. If `campfire.src` is an animated GIF/WebP
  * or a video it plays on loop; on top, pixel snow keeps falling and the fire glow
@@ -124,13 +128,14 @@ export default function Campfire({ className = "" }: { className?: string }) {
       {isVideo ? (
         <video className={styles.media} src={campfire.src} autoPlay muted loop playsInline />
       ) : (
-        <img className={styles.media} src={campfire.src} alt="" loading="lazy" />
+        <img className={styles.media} src={campfire.src} alt="" width={400} height={225} loading="lazy" />
       )}
-      <span className={styles.glow} aria-hidden />
       <canvas ref={snowRef} className={styles.snow} aria-hidden />
-      <button className={styles.sound} onClick={toggle} aria-pressed={listening}>
-        <span aria-hidden>{listening ? "■" : "▶"}</span>
-        {listening ? "Stop the fire sounds" : "Sit by the fire"}
+      <button className={`${styles.sound} ${listening ? styles.on : ""}`} onClick={toggle} aria-pressed={listening}>
+        <svg className={styles.icon} width="18" height="18" viewBox="0 0 24 24" aria-hidden>
+          <path fill="currentColor" d={listening ? STOP : FIRE} />
+        </svg>
+        {listening ? "Stop the fire" : "Sit by the fire"}
       </button>
     </section>
   );

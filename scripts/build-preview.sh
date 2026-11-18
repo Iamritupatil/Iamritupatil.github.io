@@ -7,7 +7,7 @@ OUT="${1:-preview}"
 
 PREVIEW_EXPORT=1 NEXT_PUBLIC_PREVIEW=1 npx next build
 rm -rf "$OUT" && cp -r out "$OUT" && rm -rf out
-rm -f "$OUT/404.html" "$OUT/index.txt" "$OUT/projects.txt" "$OUT/favicon.ico"
+rm -f "$OUT/404.html" "$OUT/index.txt" "$OUT/projects.txt"
 rm -rf "$OUT/_not-found" "$OUT/404"
 
 # HTML + JS: "/_next/..", "/images/..", "/icons/.." -> relative
@@ -15,7 +15,8 @@ find "$OUT" -type f \( -name '*.html' -o -name '*.js' \) -print0 | xargs -0 sed 
   -e 's#"/(_next|images|icons|sounds)/#"\1/#g' \
   -e 's#\\"/(_next|images|icons|sounds)/#\\"\1/#g' \
   -e 's#url\(/(images|icons)/#url(\1/#g'\
-  -e 's#"/llms.txt"#"llms.txt"#g'
+  -e 's#"/llms.txt"#"llms.txt"#g' \
+  -e 's#"/(icon.png|favicon.ico|apple-touch-icon.png)#"\1#g'
 # CSS: font urls live next to the css folder
 find "$OUT" -type f -name '*.css' -print0 | xargs -0 sed -i -E 's#url\(/_next/static/media/#url(../media/#g'
 

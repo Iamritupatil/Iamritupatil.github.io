@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   description: `${profile.summary} ${work[0].role} at ${work[0].org}.`,
   openGraph: { title: "Ritu Patil", description: profile.summary, url: profile.site, type: "profile" },
   alternates: { types: { "text/plain": "/llms.txt" } },
+  // profile photo; the ?v= makes browsers drop any favicon they cached before
+  icons: {
+    icon: [
+      { url: "/icon.png?v=2", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+    ],
+    apple: "/apple-touch-icon.png?v=2",
+  },
 };
 
 // Structured data so search engines and AI agents know who this page is about

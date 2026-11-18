@@ -43,14 +43,14 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(18px) saturate(80%);
+  -webkit-backdrop-filter: blur(18px) saturate(80%);
   animation: fade 0.2s ease both;
 }
 
 :global(:root[data-theme="light"]) .backdrop {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(245, 245, 247, 0.55);
 }
 
 .center {
@@ -71,7 +71,7 @@
   }
 }
 
-/* frosted glass, like the email card in the footer */
+/* Apple-style dark glass: mostly opaque, so nothing colourful shows through */
 .window {
   pointer-events: auto;
   width: min(720px, 100%);
@@ -79,20 +79,20 @@
   display: flex;
   flex-direction: column;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 45%), rgba(16, 16, 16, 0.42);
-  backdrop-filter: blur(26px) saturate(170%);
-  -webkit-backdrop-filter: blur(26px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(22, 22, 24, 0.86);
+  backdrop-filter: blur(40px) saturate(120%);
+  -webkit-backdrop-filter: blur(40px) saturate(120%);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   overflow: hidden;
   animation: pop 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
 }
 
 :global(:root[data-theme="light"]) .window {
-  border-color: rgba(255, 255, 255, 0.7);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.35) 50%), rgba(255, 255, 255, 0.3);
+  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(252, 252, 253, 0.88);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);

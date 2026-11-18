@@ -120,6 +120,10 @@ export default function Garden() {
       canvas.width = cols * U * dpr;
       canvas.height = ROWS * U * dpr;
       world = layout(cols);
+      // where each flower head is (as a fraction of the canvas), so the bee can visit them
+      canvas.dataset.flowers = JSON.stringify(
+        world.plants.map((p) => [(p.x + 0.5) / cols, (ROWS - FLOWERS[p.sprite].rows.length + 1) / ROWS]),
+      );
       draw(performance.now());
     };
 
@@ -196,5 +200,5 @@ export default function Garden() {
     };
   }, []);
 
-  return <canvas ref={ref} className={styles.garden} aria-hidden />;
+  return <canvas ref={ref} className={styles.garden} data-garden aria-hidden />;
 }

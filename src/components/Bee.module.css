@@ -4,7 +4,7 @@
   --w: calc(var(--u) * 7);
   --h: calc(var(--u) * 7);
   --d: calc(var(--u) * 10);
-  position: fixed;
+  position: absolute; /* lives on the page and scrolls with it */
   left: 0;
   top: 0;
   z-index: 40; /* above the page, under the project window */

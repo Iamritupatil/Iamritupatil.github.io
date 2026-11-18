@@ -233,7 +233,7 @@ export const topProjects: Repo[] = allProjects.filter((p) => p.name !== "Wispr M
 
 // Cozy scene just above the footer. An animated .gif/.webp or an .mp4/.webm also works here.
 export const campfire = {
-  src: "/images/campfire.jpg",
+  src: "/images/campfire.webp",
   alt: "Snowy pixel campfire with a sleeping fox",
 };
 

@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Bee.module.css";
 
 const tex = (name: string) => ({ backgroundImage: `url(/images/bee/${name}.png)` });
-const SPEED = 70; // px per second while wandering
-const FOLLOW_SPEED = 120;
 
 /**
- * A little Minecraft bee that wanders around the screen. Now and then it gets
- * curious and follows the pointer for a few seconds, keeping a polite distance.
- * It never blocks clicks and stays still for visitors who prefer reduced motion.
+ * A little Minecraft bee that lives on the page itself (it scrolls with the content,
+ * like everything else). It wanders around, now and then follows the pointer for a
+ * few seconds, and visits the flowers in the garden at the bottom to drink nectar.
+ * It never blocks clicks and stays away for visitors who prefer reduced motion.
  */
 export default function Bee() {
   const root = useRef<HTMLDivElement>(null);
@@ -26,76 +25,96 @@ export default function Bee() {
     if (!on) return;
     const el = root.current!;
     const bee = body.current!;
-    const vw = () => window.innerWidth;
-    const vh = () => window.innerHeight;
-    const margin = 40;
-    const randomSpot = () => ({
-      x: margin + Math.random() * (vw() - margin * 2),
-      y: margin + Math.random() * (vh() - margin * 2),
-    });
+    const M = 40; // keep this far from the page edges
+    const pageW = () => document.documentElement.clientWidth;
+    const pageH = () => document.documentElement.scrollHeight;
+    const clampX = (x: number) => Math.max(M, Math.min(pageW() - M, x));
+    const clampY = (y: number) => Math.max(M, Math.min(pageH() - M, y));
 
-    const pos = { x: vw() * 0.85, y: vh() * 0.3 };
+    // flower heads in the garden, in page coordinates
+    const flowers = () => {
+      const g = document.querySelector<HTMLCanvasElement>("[data-garden]");
+      if (!g?.dataset.flowers) return [];
+      const r = g.getBoundingClientRect();
+      return (JSON.parse(g.dataset.flowers) as [number, number][]).map(([fx, fy]) => ({
+        x: r.left + scrollX + fx * r.width,
+        y: r.top + scrollY + fy * r.height - 10,
+      }));
+    };
+
+    // somewhere new nearby; often a flower if the garden is close enough
+    const nextTarget = (from: { x: number; y: number }) => {
+      const fl = flowers();
+      const near = fl.filter((f) => Math.abs(f.y - from.y) < 900);
+      // a nearby flower often; now and then the long trip down to the garden
+      const pool = near.length && Math.random() < 0.45 ? near : Math.random() < 0.15 ? fl : [];
+      if (pool.length) return { ...pool[Math.floor(Math.random() * pool.length)], flower: true };
+      return {
+        x: clampX(from.x + (Math.random() - 0.5) * 900),
+        y: clampY(from.y + (Math.random() - 0.5) * 700),
+        flower: false,
+      };
+    };
+
+    const pos = { x: pageW() * 0.82, y: 260 };
     const vel = { x: -20, y: 10 };
-    let target = randomSpot();
-    let pointer: { x: number; y: number } | null = null;
+    let target = nextTarget(pos);
+    let pointer: { x: number; y: number; at: number } | null = null; // viewport coords
     let mode: "wander" | "follow" = "wander";
     let modeUntil = performance.now() + 12000 + Math.random() * 10000;
-    let pauseUntil = 0;
+    let restUntil = 0;
     let yaw = -60;
     let last = performance.now();
     let raf = 0;
 
-    const onMove = (e: PointerEvent) => (pointer = { x: e.clientX, y: e.clientY });
+    const onMove = (e: PointerEvent) => (pointer = { x: e.clientX, y: e.clientY, at: performance.now() });
     window.addEventListener("pointermove", onMove, { passive: true });
 
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
 
-      // switch between wandering and following the pointer every so often
+      // now and then follow the pointer for a few seconds (only if it's on screen near the bee)
+      const p = pointer && now - pointer.at < 8000 ? { x: pointer.x + scrollX, y: pointer.y + scrollY } : null;
       if (now > modeUntil) {
-        mode = mode === "wander" && pointer ? "follow" : "wander";
+        mode = mode === "wander" && p && Math.hypot(p.x - pos.x, p.y - pos.y) < 900 ? "follow" : "wander";
         modeUntil = now + (mode === "follow" ? 5000 + Math.random() * 4000 : 14000 + Math.random() * 14000);
-        if (mode === "wander") target = randomSpot();
+        if (mode === "wander") target = nextTarget(pos);
       }
 
-      let goal = target;
-      let speed = SPEED;
-      if (mode === "follow" && pointer) {
-        // hover beside the pointer, not on top of it
-        goal = { x: pointer.x + (pos.x < pointer.x ? -46 : 46), y: pointer.y - 28 };
-        speed = FOLLOW_SPEED;
+      let goal: { x: number; y: number } = target;
+      let speed = target.flower ? 90 : 70;
+      if (mode === "follow" && p) {
+        goal = { x: p.x + (pos.x < p.x ? -46 : 46), y: p.y - 28 }; // beside the pointer, not on it
+        speed = 120;
       }
 
       const dx = goal.x - pos.x;
       const dy = goal.y - pos.y;
       const dist = Math.hypot(dx, dy);
-
-      if (mode === "wander" && dist < 12) {
-        // arrived: hover for a moment, then pick somewhere new
-        if (!pauseUntil) pauseUntil = now + 600 + Math.random() * 2200;
-        if (now > pauseUntil) {
-          pauseUntil = 0;
-          target = randomSpot();
+      const resting = mode === "wander" && dist < 10;
+      if (resting) {
+        // arrived: drink from the flower for a few seconds, or just hover a moment
+        if (!restUntil) restUntil = now + (target.flower ? 3000 + Math.random() * 3000 : 600 + Math.random() * 2000);
+        if (now > restUntil) {
+          restUntil = 0;
+          target = nextTarget(pos);
         }
       }
 
       // steer smoothly towards the goal
-      const want = dist > 4 ? speed * Math.min(1, dist / 60) : 0;
-      const wx = dist ? (dx / dist) * want : 0;
-      const wy = dist ? (dy / dist) * want : 0;
+      const want = dist > 3 ? speed * Math.min(1, dist / 60) : 0;
       const k = Math.min(1, dt * 2.2);
-      vel.x += (wx - vel.x) * k;
-      vel.y += (wy - vel.y) * k;
-      pos.x += vel.x * dt;
-      pos.y += vel.y * dt;
-      pos.x = Math.max(8, Math.min(vw() - 8, pos.x));
-      pos.y = Math.max(8, Math.min(vh() - 8, pos.y));
+      vel.x += ((dist ? (dx / dist) * want : 0) - vel.x) * k;
+      vel.y += ((dist ? (dy / dist) * want : 0) - vel.y) * k;
+      pos.x = clampX(pos.x + vel.x * dt);
+      pos.y = clampY(pos.y + vel.y * dt);
 
-      // face where it's flying (three-quarter view), bob up and down
+      // face where it's flying (three-quarter view) and bob; on a flower, a small busy wiggle
       if (Math.abs(vel.x) > 6) yaw += ((vel.x > 0 ? 60 : -60) - yaw) * Math.min(1, dt * 5);
-      const bob = Math.sin(now / 260) * 3;
-      const pitch = Math.max(-20, Math.min(20, -vel.y * 0.15));
+      const onFlower = resting && target.flower;
+      const bob = onFlower ? Math.sin(now / 90) * 1.2 : Math.sin(now / 260) * 3;
+      const pitch = onFlower ? 14 : Math.max(-20, Math.min(20, -vel.y * 0.15));
       el.style.transform = `translate(${pos.x}px, ${pos.y + bob}px)`;
       bee.style.transform = `rotateX(${-18 + pitch * 0.5}deg) rotateY(${yaw}deg)`;
 
