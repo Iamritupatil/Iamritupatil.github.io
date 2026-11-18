@@ -36,7 +36,7 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
                 target={primary.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
               >
-                {primary.icon === "apple" && <img src="/icons/apple.svg" alt="" width={36} height={36} />}
+                {primary.icon === "apple" && <img src="/icons/apple.svg" alt="" width={20} height={20} />}
                 {primary.label}
               </a>
             )}
