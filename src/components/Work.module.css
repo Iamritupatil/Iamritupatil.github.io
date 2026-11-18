@@ -41,8 +41,8 @@
 }
 
 img.logo {
-  object-fit: contain;
-  background: #fff;
+  object-fit: cover; /* logo tiles come with their own background */
+  border: 1px solid var(--border);
 }
 
 .text {

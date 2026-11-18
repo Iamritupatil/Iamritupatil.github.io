@@ -35,9 +35,9 @@ export const socials = [
 // The "Work" section — your experience. `mark` is the letter tile shown instead of a logo.
 export type Job = { org: string; role: string; period?: string; href?: string; logo?: string; mark: string; tint: string };
 export const work: Job[] = [
-  { org: "Medvora AI", role: "Founding Engineer", period: "Now", href: "https://medvora.ai/", mark: "M", tint: "#2f6fed" },
-  { org: "MiniClay AI", role: "Founder & AI Engineer", href: "https://www.miniclayai.com/", mark: "M", tint: "#e0763b" },
-  { org: "Virtuaze", role: "Robotics Researcher", mark: "V", tint: "#3a9d5d" },
+  { org: "Medvora AI", role: "Founding Engineer", period: "Now", href: "https://medvora.ai/", logo: "/images/logos/medvora.png", mark: "M", tint: "#2f6fed" },
+  { org: "MiniClay AI", role: "Founder & AI Engineer", href: "https://www.miniclayai.com/", logo: "/images/logos/miniclay.png", mark: "M", tint: "#e0763b" },
+  { org: "Virtuaze", role: "Robotics Researcher", logo: "/images/logos/virtuaze.png", mark: "V", tint: "#3a9d5d" },
 ];
 
 export const contributions = {
