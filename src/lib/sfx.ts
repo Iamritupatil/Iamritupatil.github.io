@@ -81,35 +81,6 @@ function burst(c: AudioContext, opts: { at?: number; dur: number; vol: number; t
   src.stop(t + opts.dur + 0.02);
 }
 
-/** Wooden creak: a rough, wobbling low tone through a narrow filter. */
-function creak(c: AudioContext, from: number, to: number, dur: number, vol: number, at = 0) {
-  const t = c.currentTime + at;
-  const o = c.createOscillator();
-  o.type = "sawtooth";
-  o.frequency.setValueAtTime(from, t);
-  o.frequency.linearRampToValueAtTime(to, t + dur);
-  const f = c.createBiquadFilter();
-  f.type = "bandpass";
-  f.frequency.value = 900;
-  f.Q.value = 6;
-  const g = c.createGain();
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.linearRampToValueAtTime(vol, t + 0.04);
-  g.gain.linearRampToValueAtTime(vol * 0.6, t + dur * 0.7);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  // fast wobble gives the "ratchety" wood sound
-  const lfo = c.createOscillator();
-  const lfoGain = c.createGain();
-  lfo.frequency.value = 38;
-  lfoGain.gain.value = vol * 0.5;
-  lfo.connect(lfoGain).connect(g.gain);
-  o.connect(f).connect(g).connect(c.destination);
-  o.start(t);
-  lfo.start(t);
-  o.stop(t + dur + 0.05);
-  lfo.stop(t + dur + 0.05);
-}
-
 /**
  * Looping campfire + snowfall ambience. Returns a function that fades it out.
  * Fire: a low warm rumble plus random wood crackles and pops.
@@ -211,20 +182,6 @@ export function startCampfire(): (() => void) | null {
 }
 
 export const sfx = {
-  chestOpen() {
-    const c = ac();
-    if (!c) return;
-    creak(c, 150, 105, 0.42, 0.22);
-    burst(c, { at: 0.36, dur: 0.12, vol: 0.35, type: "lowpass", freq: 380 });
-    tone(c, { type: "sine", from: 120, to: 70, at: 0.36, dur: 0.15, vol: 0.25 });
-  },
-  chestClose() {
-    const c = ac();
-    if (!c) return;
-    creak(c, 110, 150, 0.22, 0.16);
-    burst(c, { at: 0.2, dur: 0.14, vol: 0.45, type: "lowpass", freq: 300 });
-    tone(c, { type: "sine", from: 110, to: 55, at: 0.2, dur: 0.18, vol: 0.32 });
-  },
   /** Metal chain links knocking together. */
   chainClink() {
     const c = ac();

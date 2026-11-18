@@ -2,7 +2,8 @@ import Cover from "@/components/Cover";
 import Profile from "@/components/Profile";
 import Work from "@/components/Work";
 import Contributions from "@/components/Contributions";
-import ProjectChests from "@/components/ProjectChests";
+import ProjectCard from "@/components/ProjectCard";
+import { projects, routes } from "@/data/content";
 import Campfire from "@/components/Campfire";
 import Lantern from "@/components/Lantern";
 import Footer from "@/components/Footer";
@@ -22,7 +23,16 @@ export default function Home() {
         <div className="human-only">
           <Work />
           <Contributions />
-          <ProjectChests />
+          <section className={styles.projects}>
+            <ProjectCard project={projects.featured} featured />
+            <div className={styles.pair}>
+              <ProjectCard project={projects.pair[0]} />
+              <ProjectCard project={projects.pair[1]} />
+            </div>
+            <a className={styles.allProjects} href={routes.projects}>
+              All projects <span aria-hidden>→</span>
+            </a>
+          </section>
           <Campfire className={styles.slotLarge} />
         </div>
       </main>
