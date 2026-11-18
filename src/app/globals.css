@@ -84,6 +84,19 @@ img {
   }
 }
 
+/* Human / Agent switch on the banner: Agent mode shows the plain-text profile */
+.agent-only {
+  display: none;
+}
+
+:root[data-mode="agent"] .agent-only {
+  display: block;
+}
+
+:root[data-mode="agent"] .human-only {
+  display: none;
+}
+
 /* Shared card surface used across sections */
 .card {
   background: var(--card-bg);

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { themeInitScript } from "@/lib/theme";
+import { allProjects, contact, github, profile, socials, work } from "@/data/content";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,8 +11,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(profile.site),
   title: "Ritu Patil",
-  description: "I build cool stuff even when no one cares ;)",
+  description: `${profile.summary} ${work[0].role} at ${work[0].org}.`,
+  openGraph: { title: "Ritu Patil", description: profile.summary, url: profile.site, type: "profile" },
+  alternates: { types: { "text/plain": "/llms.txt" } },
+};
+
+// Structured data so search engines and AI agents know who this page is about
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: profile.site,
+  email: `mailto:${contact.email}`,
+  description: profile.summary,
+  homeLocation: { "@type": "Place", name: profile.location },
+  jobTitle: work[0].role,
+  worksFor: { "@type": "Organization", name: work[0].org, url: work[0].href },
+  knowsAbout: profile.skills,
+  sameAs: [github.url, ...socials.filter((s) => s.href.startsWith("http") && s.href !== github.url).map((s) => s.href)],
+  owns: allProjects.map((p) => ({ "@type": "CreativeWork", name: p.name, url: p.site ?? p.repo })),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -19,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       </head>
       <body className={inter.variable}>{children}</body>
     </html>

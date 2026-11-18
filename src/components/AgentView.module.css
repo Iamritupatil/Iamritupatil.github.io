@@ -1,0 +1,60 @@
+.agent {
+  margin-top: 40px;
+  padding: 24px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kicker {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c4);
+}
+
+.head h2 {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.copy {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.copy:hover {
+  border-color: var(--muted);
+}
+
+.text {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font: 14px/1.6 ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.note {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.note a {
+  color: var(--text);
+  text-decoration: underline;
+}

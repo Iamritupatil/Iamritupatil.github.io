@@ -10,7 +10,7 @@
   display: none;
   position: absolute;
   top: 0;
-  left: calc(16px + min(1127px, 50vw + 303px));
+  left: calc(16px + min(1191px, 50vw + 431px)); /* chain hangs where the Figma lantern did */
   z-index: 2;
 }
 

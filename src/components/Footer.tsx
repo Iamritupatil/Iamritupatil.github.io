@@ -6,8 +6,35 @@ import styles from "./Footer.module.css";
 
 const GARDEN = "/images/garden.png";
 const GARDEN_WIDTH = 1906;
-const SLICE = 22; // each slice of grass sways on its own, in a travelling wave
-const SLICES = Math.ceil(GARDEN_WIDTH / SLICE);
+const SLICE = 22; // grass sways in narrow strips, in a travelling wave
+// Each flower (x ranges in the 1906px garden) gets one whole strip, so it sways in one piece
+const FLOWERS: [number, number][] = [
+  [52, 212], // yellow flower
+  [272, 440], // rose bush
+  [1480, 1676], // pink tulip
+  [1680, 1874], // red tulip
+];
+const SLICES: { left: number; width: number; flower: boolean }[] = (() => {
+  const out: { left: number; width: number; flower: boolean }[] = [];
+  let x = 0;
+  while (x < GARDEN_WIDTH) {
+    const f = FLOWERS.find(([a]) => a >= x && a < x + SLICE);
+    if (f && x < f[0]) {
+      out.push({ left: x, width: f[0] - x, flower: false });
+      x = f[0];
+    }
+    const inFlower = FLOWERS.find(([a, b]) => x >= a && x < b);
+    if (inFlower) {
+      out.push({ left: x, width: inFlower[1] - x, flower: true });
+      x = inFlower[1];
+    } else {
+      const w = Math.min(SLICE, GARDEN_WIDTH - x);
+      out.push({ left: x, width: w, flower: false });
+      x += w;
+    }
+  }
+  return out;
+})();
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -33,14 +60,17 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.garden} aria-hidden>
-        {Array.from({ length: SLICES }, (_, i) => (
+        {SLICES.map((s, i) => (
           <span
             key={i}
+            className={s.flower ? styles.flower : undefined}
             style={{
-              left: i * SLICE,
+              // strips overlap 3px on each side so no gap opens while they sway
+              left: s.left - 3,
+              width: s.width + 6,
               backgroundImage: `url(${GARDEN})`,
-              backgroundPosition: `${-i * SLICE}px 100%`,
-              animationDelay: `${-(i * 0.13).toFixed(2)}s`,
+              backgroundPosition: `${-(s.left - 3)}px 100%`,
+              animationDelay: `${-((s.left / SLICE) * 0.13).toFixed(2)}s`,
               animationDuration: `${3 + (i % 5) * 0.35}s`,
             }}
           />

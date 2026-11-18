@@ -1,24 +1,47 @@
 .lantern {
   display: block;
-  width: 200px;
-  height: 363px;
+  width: 72px;
   cursor: grab;
   touch-action: none;
   user-select: none;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); /* springs back */
 }
 
 .dragging {
   cursor: grabbing;
+}
+
+/* gentle idle swing, pivoting at the top of the chain */
+.swing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: swing 4s ease-in-out infinite;
+}
+
+.dragging .swing {
+  animation-play-state: paused;
+}
+
+.chain {
+  display: block;
+  transition: height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); /* springs back */
+}
+
+.dragging .chain {
   transition: none;
 }
 
-.lantern img {
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transform-origin: 50% 0;
-  animation: swing 4s ease-in-out infinite;
+.body {
+  display: block;
+  margin-top: -6px; /* the ring hooks onto the last link */
+  filter: drop-shadow(0 0 14px rgba(255, 186, 72, 0.55)) drop-shadow(0 0 32px rgba(255, 160, 50, 0.25));
+  animation: flicker 3.2s ease-in-out infinite;
+}
+
+:global(:root[data-theme="light"]) .body {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+  animation: none;
 }
 
 .lantern:focus-visible {
@@ -30,9 +53,22 @@
 @keyframes swing {
   0%,
   100% {
-    transform: rotate(1.6deg);
+    transform: rotate(1.8deg);
   }
   50% {
-    transform: rotate(-1.6deg);
+    transform: rotate(-1.8deg);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 14px rgba(255, 186, 72, 0.55)) drop-shadow(0 0 32px rgba(255, 160, 50, 0.25));
+  }
+  45% {
+    filter: drop-shadow(0 0 11px rgba(255, 186, 72, 0.45)) drop-shadow(0 0 26px rgba(255, 160, 50, 0.2));
+  }
+  70% {
+    filter: drop-shadow(0 0 16px rgba(255, 186, 72, 0.6)) drop-shadow(0 0 36px rgba(255, 160, 50, 0.28));
   }
 }

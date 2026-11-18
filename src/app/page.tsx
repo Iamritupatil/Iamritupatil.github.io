@@ -6,6 +6,7 @@ import ProjectCard from "@/components/ProjectCard";
 import MotivationVideo from "@/components/MotivationVideo";
 import Lantern from "@/components/Lantern";
 import Footer from "@/components/Footer";
+import AgentView from "@/components/AgentView";
 import { projects, routes } from "@/data/content";
 import styles from "./page.module.css";
 
@@ -18,6 +19,8 @@ export default function Home() {
         </div>
         <Cover />
         <Profile />
+        <AgentView />
+        <div className="human-only">
         <Work />
         <Contributions />
 
@@ -32,6 +35,7 @@ export default function Home() {
           </a>
         </section>
         <MotivationVideo className={styles.slotLarge} />
+        </div>
       </main>
       <Footer />
     </>

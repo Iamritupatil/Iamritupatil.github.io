@@ -4,10 +4,17 @@
 export const profile = {
   name: "Ritu Patil",
   location: "Surat, India",
-  intro: "I build cool stuff even when no one cares ;)",
+  intro: "I build cool stuff even when nobody cares ;)",
   photo: "/images/profile.jpg",
-  cover: "/images/lofi-cover.jpg", // dark theme banner
-  coverLight: "/images/cover-meadow.jpg", // white theme banner
+  summary: "Founder and AI engineer building backend systems, developer infrastructure and AI products.",
+  skills: ["Python", "FastAPI", "PostgreSQL", "Redis", "TypeScript", "Docker"],
+  site: "https://ritupatil.me",
+  // Banner slideshow: changes every few seconds. `position` picks which part of the photo shows.
+  banners: [
+    { src: "/images/banner-cave.jpg", position: "center 48%", alt: "Lantern-lit stone cave" },
+    { src: "/images/banner-house.jpg", position: "center 55%", alt: "Cozy pixel cottage with a sunny window" },
+    { src: "/images/banner-meadow.jpg", position: "center 62%", alt: "Cherry-blossom meadow" },
+  ],
 };
 
 export const github = {

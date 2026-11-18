@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Plain-text profile for AI agents
+# https://ritupatil.me/llms.txt

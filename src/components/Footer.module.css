@@ -19,7 +19,6 @@
 .garden span {
   position: absolute;
   bottom: 0;
-  width: 23px; /* 1px overlap hides seams between slices */
   height: 100%;
   background-repeat: no-repeat;
   background-size: 1906px 244px;
@@ -27,13 +26,29 @@
   animation: sway 3.4s ease-in-out infinite;
 }
 
+/* flowers lean a little less and sit above the grass strips around them */
+.garden .flower {
+  z-index: 1;
+  animation-name: sway-flower;
+}
+
+@keyframes sway-flower {
+  0%,
+  100% {
+    transform: skewX(0.8deg);
+  }
+  50% {
+    transform: skewX(-0.8deg);
+  }
+}
+
 @keyframes sway {
   0%,
   100% {
-    transform: skewX(1.6deg);
+    transform: skewX(1.1deg);
   }
   50% {
-    transform: skewX(-1.6deg);
+    transform: skewX(-1.1deg);
   }
 }
 
