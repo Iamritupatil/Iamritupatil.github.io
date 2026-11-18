@@ -1,4 +1,5 @@
-// Little sound effects, synthesized with the Web Audio API (no audio files).
+// Little sound effects. The Minecraft-style clips live in public/sounds and play
+// through <audio>; the game's blips are synthesized with the Web Audio API.
 // Browsers only allow sound after the visitor has clicked or tapped, which every
 // effect here follows. A visitor can mute everything with the speaker button.
 
@@ -182,23 +183,6 @@ export function startCampfire(): (() => void) | null {
 }
 
 export const sfx = {
-  /** Metal chain links knocking together. */
-  chainClink() {
-    const c = ac();
-    if (!c) return;
-    [0, 0.05, 0.11].forEach((at, i) => {
-      tone(c, { type: "triangle", from: 2600 + i * 420, to: 2200 + i * 300, at, dur: 0.09, vol: 0.06 });
-      tone(c, { type: "sine", from: 4200 - i * 300, to: 3900, at, dur: 0.06, vol: 0.03 });
-    });
-  },
-  /** Lantern light switching on or off. */
-  lightSwitch() {
-    const c = ac();
-    if (!c) return;
-    burst(c, { dur: 0.03, vol: 0.4, type: "highpass", freq: 2500 });
-    tone(c, { type: "sine", from: 180, to: 90, dur: 0.1, vol: 0.2 });
-    tone(c, { type: "triangle", from: 1800, to: 1400, at: 0.03, dur: 0.18, vol: 0.05 });
-  },
   jump() {
     const c = ac();
     if (!c) return;
@@ -224,3 +208,46 @@ export const sfx = {
     [523, 659, 784].forEach((f, i) => tone(c, { type: "square", from: f, to: f, at: i * 0.07, dur: 0.1, vol: 0.04 }));
   },
 };
+
+// ---- recorded clips (public/sounds) ----
+
+export type Clip = "click" | "chest-open" | "chest-close" | "lantern" | "totem";
+
+const VOLUME: Record<Clip, number> = {
+  click: 0.45,
+  "chest-open": 0.7,
+  "chest-close": 0.6,
+  lantern: 0.8,
+  totem: 0.3, // the totem is loud: keep it well down
+};
+const SOUNDS = process.env.NEXT_PUBLIC_PREVIEW ? "sounds/" : "/sounds/";
+const clips = new Map<Clip, HTMLAudioElement>();
+
+function clip(name: Clip) {
+  let a = clips.get(name);
+  if (!a) {
+    a = new Audio(SOUNDS + name + ".mp3");
+    a.preload = "auto";
+    clips.set(name, a);
+  }
+  return a;
+}
+
+/** Load clips ahead of time so the first play has no delay. */
+export function preloadClips(...names: Clip[]) {
+  if (typeof window === "undefined") return;
+  names.forEach((n) => clip(n).load());
+}
+
+/** Play a clip (overlapping plays get their own copy). Resolves false if muted or blocked. */
+export function playClip(name: Clip): Promise<boolean> {
+  if (typeof window === "undefined" || !soundOn()) return Promise.resolve(false);
+  const base = clip(name);
+  const a = base.paused ? base : (base.cloneNode() as HTMLAudioElement);
+  a.volume = VOLUME[name];
+  a.currentTime = 0;
+  return a.play().then(
+    () => true,
+    () => false,
+  );
+}

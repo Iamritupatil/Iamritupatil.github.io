@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Repo } from "@/data/content";
+import { playClip } from "@/lib/sfx";
 import Chest from "./Chest";
 import styles from "./ProjectChests.module.css";
 
@@ -17,7 +18,11 @@ export default function ProjectChests({ items }: { items: Repo[] }) {
           <button
             key={p.name}
             className={`${styles.slot} ${open === i ? styles.active : ""}`}
-            onClick={() => setOpen(open === i ? null : i)}
+            data-sfx // the chest makes its own sound
+            onClick={() => {
+              void playClip(open === i ? "chest-close" : "chest-open");
+              setOpen(open === i ? null : i);
+            }}
             aria-expanded={open === i}
             aria-controls="chest-loot"
             aria-label={`${open === i ? "Close" : "Open"} the ${p.name} chest`}

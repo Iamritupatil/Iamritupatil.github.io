@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
 import { themeInitScript } from "@/lib/theme";
+import ClickSound from "@/components/ClickSound";
 import { allProjects, contact, github, profile, socials, work } from "@/data/content";
 import "./globals.css";
 
@@ -41,7 +42,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       </head>
-      <body className={sans.variable}>{children}</body>
+      <body className={sans.variable}>
+        {children}
+        <ClickSound />
+      </body>
     </html>
   );
 }

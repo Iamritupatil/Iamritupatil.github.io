@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { profile } from "@/data/content";
 import { toggleTheme } from "@/lib/theme";
-import { setSound, sfx, soundOn } from "@/lib/sfx";
+import { playClip, setSound, soundOn } from "@/lib/sfx";
 import FruitRun from "./game/FruitRun";
 import styles from "./Cover.module.css";
 
@@ -89,10 +89,7 @@ export default function Cover() {
         className={styles.sound}
         aria-label={sound ? "Turn sound off" : "Turn sound on"}
         aria-pressed={sound}
-        onClick={() => {
-          setSound(!sound);
-          if (!sound) sfx.chainClink();
-        }}
+        onClick={() => setSound(!sound)}
       >
         <svg width="20" height="20" viewBox="0 0 10 10" shapeRendering="crispEdges" aria-hidden>
           <path d="M1 4h2v2H1zM3 3h1v4H3zM4 2h1v6H4z" fill="#BBC3AE" />
@@ -107,9 +104,10 @@ export default function Cover() {
       <button
         className={styles.theme}
         aria-label="Switch the lights"
+        data-sfx // plays the lantern instead of the click
         onClick={() => {
           toggleTheme();
-          sfx.lightSwitch();
+          void playClip("lantern");
         }}
       >
         <img className={styles.sun} src="/icons/sun.svg" alt="" width={24} height={24} />

@@ -12,8 +12,8 @@ rm -rf "$OUT/_not-found" "$OUT/404"
 
 # HTML + JS: "/_next/..", "/images/..", "/icons/.." -> relative
 find "$OUT" -type f \( -name '*.html' -o -name '*.js' \) -print0 | xargs -0 sed -i -E \
-  -e 's#"/(_next|images|icons)/#"\1/#g' \
-  -e 's#\\"/(_next|images|icons)/#\\"\1/#g' \
+  -e 's#"/(_next|images|icons|sounds)/#"\1/#g' \
+  -e 's#\\"/(_next|images|icons|sounds)/#\\"\1/#g' \
   -e 's#url\(/(images|icons)/#url(\1/#g'\
   -e 's#"/llms.txt"#"llms.txt"#g'
 # CSS: font urls live next to the css folder
