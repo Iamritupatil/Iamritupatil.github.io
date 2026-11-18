@@ -1,0 +1,28 @@
+# Ritu Patil
+
+> Founder and AI engineer building backend systems, developer infrastructure and AI products. Based in Surat, India.
+
+## Work
+- Now: Founding Engineer at Medvora AI (https://medvora.ai/)
+- Before: Founder & AI Engineer at MiniClay AI (https://www.miniclayai.com/)
+- Before: Robotics Researcher at Virtuaze
+
+## Projects
+- Notchman: Get instant voice summaries from long text. https://notchman.app
+- AgentGate: A deterministic control layer for AI agents. Cedar decides ALLOW, HUMAN APPROVAL or DENY before anything executes. https://agentgate-sable.vercel.app/#/control · https://github.com/iamritupatil/AgentGate
+- Patchline: An on-call engineer in your messages: your app texts you when it breaks, with two tested fixes. Reply A to ship. https://www.patchlinee.tech/ · https://github.com/iamritupatil/patchline
+- Radi-AI Bharat: AI radiology assistant that analyses X-rays and highlights fracture areas. https://github.com/iamritupatil/radi-ai-bharat-prototype
+- Notchman Community: The open-source version of Notchman for desktop and Mac. https://notchman.app · https://github.com/iamritupatil/notchman-community
+- MiniClay AI: Turn a prompt into a fine-tuned AI model: data sourcing, cleaning and fine-tuning handled for you. https://www.miniclayai.com/
+- Healthcare Data Normalization Engine https://github.com/iamritupatil/Healthcare-Data-Normalization-Engine
+- Wispr Max https://github.com/iamritupatil/wispr-max-releases-
+
+## Skills
+Python, FastAPI, PostgreSQL, Redis, TypeScript, Docker
+
+## Links
+- Website: https://ritupatil.me
+- GitHub: https://github.com/iamritupatil
+- X: https://x.com/iamritupatil
+- MiniClay AI: https://www.miniclayai.com/
+- Email: ritu.patil.dilip@gmail.com
