@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
-
-First, run the development server:
+Next.js (App Router) + TypeScript + CSS Modules, built from the Figma file "Portfolio · Desktop" (1906 × 2617).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where to edit
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What | File |
+| --- | --- |
+| All text, links, work items, projects, contact | `src/data/content.ts` |
+| Contribution grid (53 weeks × 7 days, levels 0–4) | `src/data/contributions.json` |
+| Colors / shared tokens | `src/app/globals.css` |
+| Page layout and section spacing | `src/app/page.tsx`, `src/app/page.module.css` |
+| Sections | `src/components/*` (each has its own `.module.css`) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Links the design didn't specify are `"#"` and marked `TODO` in `content.ts`.
 
-## Learn More
+## Assets
 
-To learn more about Next.js, take a look at the following resources:
+Taken directly from the Figma file:
+- `public/icons/*.svg`: all pixel-art icons, apple and link-out icons
+- `public/images/lofi-cover.jpg`: original cover image
+- `public/images/logo-*.png`: work logos (3× export)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Temporary stand-ins (the Figma API rate limit was hit before these could be downloaded). Re-export them from Figma and overwrite these files:
+- `public/images/profile.jpg`: the original is 573×648, but only the top 510px came through. Export the "Profile photo" image fill.
+- `public/images/lantern.png`: cropped from a low-res render. Export layer "image 4".
+- `public/images/garden.png`: the grass and flowers strip, cropped from a low-res render. Export group "Group 10" as PNG at 2× with a transparent background, cropped to the frame's bottom edge (y 2373 → 2617).

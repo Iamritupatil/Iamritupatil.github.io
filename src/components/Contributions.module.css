@@ -1,0 +1,92 @@
+.panel {
+  margin-top: 49px;
+  height: 277px;
+  padding: 25px 25px 0;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.total {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.period {
+  margin-top: 6px;
+  font-size: 17px;
+  line-height: 21px;
+  color: var(--muted);
+}
+
+.github {
+  margin-top: 16px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  line-height: 21px;
+  color: var(--muted);
+}
+
+.github img {
+  filter: var(--icon-filter);
+}
+
+.github:hover {
+  color: var(--text);
+}
+
+.scroll {
+  margin-top: 21px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.calendar {
+  width: 986px;
+}
+
+.months {
+  position: relative;
+  height: 23px;
+}
+
+.months span {
+  position: absolute;
+  top: 0;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(53, 15px);
+  grid-template-rows: repeat(7, 15px);
+  column-gap: 3.68px;
+  row-gap: 3.7px;
+}
+
+.cell {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+@media (max-width: 600px) {
+  .panel {
+    height: auto;
+    padding-bottom: 24px;
+  }
+}

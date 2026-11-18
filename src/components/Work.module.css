@@ -1,0 +1,84 @@
+.work {
+  margin-top: 52px;
+}
+
+.title {
+  padding-left: 4px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.cards {
+  margin-top: 17px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  height: 87px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.logo {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.text {
+  min-width: 0;
+}
+
+.link {
+  transition: border-color 0.15s ease;
+}
+
+.link:hover {
+  border-color: var(--muted);
+}
+
+.now {
+  margin-left: 8px;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid currentColor;
+  color: var(--c4);
+  vertical-align: 2px;
+}
+
+.org {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.role {
+  margin-top: 6px;
+  font-size: 17px;
+  line-height: 21px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

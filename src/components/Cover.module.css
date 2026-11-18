@@ -1,0 +1,200 @@
+.cover {
+  position: relative;
+  height: 259px;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+/* Crop matches the Figma image fill */
+.image {
+  position: absolute;
+  left: 0.04%;
+  top: -17.11%;
+  width: 99.96%;
+  height: 196.28%;
+  max-width: none;
+}
+
+.switch {
+  position: absolute;
+  top: 22px;
+  left: 23px;
+  width: 163px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--chip-bg);
+  overflow: hidden;
+}
+
+.pill {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  width: 80px;
+  height: 31px;
+  border-radius: 8px;
+  background: #eee;
+  transition: transform 0.2s ease, width 0.2s ease;
+}
+
+.pillAgent {
+  width: 71px;
+  transform: translateX(84px);
+}
+
+.option {
+  position: absolute;
+  top: 11px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #a1a1aa;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.human {
+  left: 17px;
+}
+
+.agent {
+  left: 101px;
+}
+
+.active {
+  color: #111;
+  font-weight: 500;
+}
+
+.theme {
+  position: absolute;
+  top: 22px;
+  right: 20px;
+  width: 49px;
+  height: 50px;
+  border-radius: 4px;
+  background: var(--chip-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageLight {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  cursor: pointer;
+  display: none;
+}
+
+:global(:root[data-theme="light"]) .imageLight {
+  display: block;
+}
+
+:global(:root[data-theme="light"]) .image {
+  display: none;
+}
+
+.moon,
+:global(:root[data-theme="light"]) .sun {
+  display: none;
+}
+
+:global(:root[data-theme="light"]) .moon {
+  display: block;
+}
+
+/* Clicking anywhere on the photo opens the game */
+.image {
+  cursor: pointer;
+}
+
+.play {
+  position: absolute;
+  right: 320px; /* sits left of the lofi pill */
+  bottom: 20px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 13px;
+  background: #160e08;
+  color: #e8e8e8;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.play span {
+  font-size: 11px;
+  color: #f5d142;
+}
+
+.play:hover,
+.lofi:hover {
+  background: #2a1a0e;
+}
+
+.play:focus-visible,
+.lofi:focus-visible,
+.theme:focus-visible {
+  outline: 2px solid #e8e8e8;
+  outline-offset: 2px;
+}
+
+.lofi {
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  height: 38px;
+  padding: 0 8px 0 14px;
+  border-radius: 13px;
+  background: #160e08;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e8e8e8; /* sits on the photo, same in both themes */
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .cover {
+    height: 220px;
+  }
+  .switch {
+    top: 14px;
+    left: 14px;
+  }
+  .theme {
+    top: 14px;
+    right: 14px;
+  }
+  /* Avatar overlaps the bottom of the cover on phones, so lift the pill */
+  .lofi {
+    top: 76px;
+    right: 14px;
+    bottom: auto;
+    height: 34px;
+    font-size: 14px;
+  }
+  .play {
+    right: 14px;
+    bottom: 14px;
+    height: 34px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 760px) {
+  /* not enough room for both pills side by side: stack the play pill above */
+  .play {
+    right: 22px;
+    bottom: 66px;
+  }
+}

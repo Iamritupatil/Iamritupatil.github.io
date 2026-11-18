@@ -1,0 +1,213 @@
+.project {
+  min-height: 292px;
+  padding: 49px 24px 49px 50px;
+}
+
+.featured {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 24px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Launch video sits in the empty right half of the featured card */
+.launch {
+  flex: none;
+  width: 434px;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -25px 0;
+}
+
+/* Screenshot at the top of a project card */
+.shot {
+  display: block;
+  margin: -25px -0px 28px -26px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 2 / 1;
+  background: var(--bg);
+}
+
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.3s ease;
+}
+
+.shot:hover img {
+  transform: scale(1.02);
+}
+
+.hasVideo {
+  border: 0;
+  background: #000;
+}
+
+/* An X post is taller than 16:9: let it set its own height */
+.launchX {
+  aspect-ratio: auto;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+}
+
+/* Shown until X's player loads (and wherever X is blocked) */
+.launchX :global(blockquote.twitter-tweet) {
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card-bg);
+  display: grid;
+  place-items: center;
+}
+
+.launchX :global(blockquote.twitter-tweet) a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.launchX :global(blockquote.twitter-tweet) a::before {
+  content: "▶";
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--text-strong);
+  color: var(--bg);
+  font-size: 18px;
+  padding-left: 3px;
+}
+
+.launch video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.launchEmpty {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--slot-label);
+}
+
+.name {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 47px;
+  color: var(--text);
+}
+
+.description {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  line-height: 21px;
+  color: var(--muted);
+}
+
+.actions {
+  margin-top: 48px;
+  margin-left: -2px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 27px;
+}
+
+.download {
+  width: 202px;
+  height: 41px;
+  padding-left: 7px;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  background: #d9d9d9;
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.noIcon {
+  width: auto;
+  padding: 0 18px;
+  justify-content: center;
+}
+
+.download img {
+  margin-right: -10px; /* glyph sits in the left half of the 36px icon box */
+}
+
+.download:hover {
+  background: #fff;
+}
+
+.site {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-strong);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.site:hover {
+  text-decoration: underline;
+}
+
+.site img {
+  filter: var(--icon-filter);
+}
+
+@media (max-width: 900px) {
+  .featured {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .launch {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .shot {
+    margin: -8px 0 22px;
+  }
+  .project {
+    min-height: 0;
+    padding: 32px 24px;
+  }
+  .name {
+    font-size: 30px;
+  }
+  .actions {
+    margin-top: 32px;
+  }
+}

@@ -1,0 +1,77 @@
+/* Placeholder label shown until the content is added in src/data/content.ts */
+.empty {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--slot-label);
+}
+
+.experience {
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+}
+
+.list {
+  list-style: none;
+  width: 100%;
+  padding: 18px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+}
+
+.list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.role {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 21px;
+  color: var(--text);
+}
+
+.org {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 19px;
+  color: var(--muted);
+}
+
+.period {
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.now {
+  color: var(--c4);
+  border-color: currentColor;
+}
+
+@media (max-width: 760px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
