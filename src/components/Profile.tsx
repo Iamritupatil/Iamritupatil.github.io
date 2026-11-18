@@ -12,7 +12,7 @@ export default function Profile() {
           <h1 className={styles.name}>{profile.name}</h1>
           <p className={styles.location}>
             <span className={styles.pin}>
-              <img src="/icons/location.svg" alt="" width={15} height={17} />
+              <img src="/icons/location.svg" alt="" width={18} height={18} />
             </span>
             {profile.location}
           </p>
@@ -22,10 +22,10 @@ export default function Profile() {
       <p className={styles.intro}>{profile.intro}</p>
 
       <ul className={styles.socials}>
-        {socials.map((s) => (
+        {socials.filter((s) => s.href !== "#").map((s) => (
           <li key={s.name}>
-            <a href={s.href} aria-label={s.name} className={styles.social}>
-              <img src={s.icon} alt="" />
+            <a href={s.href} aria-label={s.name} className={styles.social} target="_blank" rel="noreferrer">
+              <img src={s.icon} alt="" className={"brand" in s && s.brand ? styles.brand : undefined} />
             </a>
           </li>
         ))}

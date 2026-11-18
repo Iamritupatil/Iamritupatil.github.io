@@ -52,12 +52,6 @@ export default function Chest({ open }: { open: boolean }) {
           }}
         />
       </span>
-      <span className={styles.sparkles}>
-        <i />
-        <i />
-        <i />
-        <i />
-      </span>
     </span>
   );
 }

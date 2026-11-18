@@ -109,6 +109,12 @@
   height: 24px;
 }
 
+/* brand logos keep their own colours in both themes */
+.social img.brand {
+  filter: none;
+  border-radius: 6px;
+}
+
 .social:hover {
   opacity: 0.8;
   transform: translateY(-1px);

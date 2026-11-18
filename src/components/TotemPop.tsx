@@ -4,8 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { playClip, preloadClips } from "@/lib/sfx";
 import styles from "./TotemPop.module.css";
 
-const TICKS = 40; // Minecraft: 40 game ticks
-const DURATION = 2000; // = 2 seconds
+const DURATION = 2000; // Minecraft: 40 game ticks = 2 seconds
 const LAYERS = 8; // stacked copies give the sprite Minecraft's 1-pixel item thickness
 
 /**
@@ -39,7 +38,7 @@ export default function TotemPop() {
       const k = 2.5 / -z; // perspective
       const x = offX * (vw / 4) * swing * k;
       const y = offY * (vh / 4) * swing * k;
-      const scale = 10 / -z; // 1 when far, 10 when closest
+      const scale = 1 / -z; // 0.1 when far, 1 (its sharp full size) when closest
       const spin = 900 * Math.abs(Math.sin(f4));
       const wobble = 6 * Math.cos(f * 8);
       el.style.opacity = f >= 1 ? "0" : "1";

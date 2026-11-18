@@ -19,6 +19,7 @@ export default function FruitRun({ background, onClose }: { background?: string;
   return (
     <div className={styles.game}>
       <canvas
+        data-sfx // the game has its own sounds
         ref={canvasRef}
         className={styles.canvas}
         tabIndex={0}

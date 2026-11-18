@@ -10,11 +10,12 @@
   perspective: 1200px;
 }
 
-/* the totem at its farthest; it scales up to 10× as it reaches the screen */
+/* Laid out at its closest size, an exact 2× of the 189 px picture, and only ever
+   scaled down from there (to 1/10 when far away), so its pixels never blur. */
 .item {
   position: relative;
-  width: min(9vh, 9vw);
-  aspect-ratio: 189 / 191;
+  width: 378px;
+  height: 382px;
   opacity: 0;
   transform-style: preserve-3d;
   will-change: transform;
@@ -26,4 +27,11 @@
   width: 100%;
   height: 100%;
   image-rendering: pixelated;
+}
+
+@media (max-width: 520px), (max-height: 520px) {
+  .item {
+    width: 189px; /* 1× on small screens */
+    height: 191px;
+  }
 }

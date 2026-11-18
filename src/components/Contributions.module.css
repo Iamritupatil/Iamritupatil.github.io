@@ -90,3 +90,15 @@
     padding-bottom: 24px;
   }
 }
+
+/* empty grid while the real calendar loads */
+.loading {
+  grid-auto-flow: column;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}

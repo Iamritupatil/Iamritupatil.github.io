@@ -26,10 +26,8 @@ export const socials = [
   { name: "X", icon: "/icons/x.svg", href: "https://x.com/iamritupatil" },
   { name: "LinkedIn", icon: "/icons/linkedin.svg", href: "#" }, // TODO: LinkedIn URL
   { name: "GitHub", icon: "/icons/github.svg", href: github.url },
-  { name: "MiniClay AI", icon: "/icons/sparkle.svg", href: "https://www.miniclayai.com/" },
-  { name: "Instagram", icon: "/icons/instagram.svg", href: "#" }, // TODO
-  { name: "Links", icon: "/icons/links.svg", href: "#" }, // TODO
-  { name: "Reading", icon: "/icons/reading.svg", href: "#" }, // TODO
+  { name: "MiniClay AI", icon: "/icons/miniclay.png", brand: true, href: "https://www.miniclayai.com/" },
+  { name: "Instagram", icon: "/icons/instagram.svg", href: "https://www.instagram.com/iamritupatil/" },
 ];
 
 // The "Work" section — your experience. `mark` is the letter tile shown instead of a logo.
@@ -41,14 +39,9 @@ export const work: Job[] = [
 ];
 
 export const contributions = {
-  total: "3,181 contributions",
+  // the calendar itself is fetched live from GitHub (see Contributions.tsx)
   period: "in the last year",
   githubHref: github.url,
-  // [label, week column the label sits above]
-  months: [
-    ["Nov", 0], ["Dec", 3], ["Jan", 7], ["Feb", 11], ["Mar", 15], ["Apr", 20], ["May", 24],
-    ["Jun", 29], ["Jul", 33], ["Aug", 37], ["Sep", 42], ["Oct", 46], ["Nov", 50],
-  ] as [string, number][],
 };
 
 export type Project = {
@@ -94,7 +87,16 @@ export const projects = {
 };
 
 // Projects page: pinned GitHub repos (and MiniClay AI), in pinned order
-export type Repo = { name: string; description: string; repo?: string; site?: string; language?: string; image?: string };
+export type Repo = {
+  name: string;
+  description: string;
+  repo?: string;
+  site?: string;
+  language?: string;
+  image?: string;
+  /** What the chest window shows: an overview written from the project's README */
+  overview?: { tagline: string; about: string[]; highlights: string[]; stack: string[] };
+};
 export const allProjects: Repo[] = [
   {
     name: "AgentGate",
@@ -103,6 +105,21 @@ export const allProjects: Repo[] = [
     site: "https://agentgate-sable.vercel.app/#/control",
     language: "Python",
     image: "/images/projects/agentgate.jpg",
+    overview: {
+      tagline: "Reasoning can be probabilistic. Authority should be deterministic.",
+      about: [
+        "AI agents can now issue refunds, deploy software, send messages and change databases. Giving an agent a tool usually gives it far more authority than it needs, and rules written into a system prompt can be misread or prompt-injected away.",
+        "AgentGate puts a deterministic policy boundary between a proposed action and its execution. The caller says who is acting, what they want to do, to which resource and in what context. Cedar policies then return ALLOW, REQUIRE_APPROVAL or DENY. The agent can reason however it wants; it doesn't get to decide its own authority.",
+      ],
+      highlights: [
+        "Cedar authorization with three outcomes: allow, require human approval, or deny",
+        "Human approval bound to the exact action and arguments, claimed exactly once",
+        "Generic HTTP authorization API and an MCP adapter for agents",
+        "Control Room with Policy Studio, Playground, Test Bench and an audit timeline",
+        "Natural-language policy drafting",
+      ],
+      stack: ["Cedar", "FastAPI", "React", "Vite", "AWS EC2", "Vercel"],
+    },
   },
   {
     name: "Patchline",
@@ -111,12 +128,42 @@ export const allProjects: Repo[] = [
     site: "https://www.patchlinee.tech/",
     language: "TypeScript",
     image: "/images/projects/patchline.jpg",
+    overview: {
+      tagline: "Your app texts you when it breaks, with two tested fixes. Reply A to ship.",
+      about: [
+        "Patchline is an on-call engineer in your messages. Point your alerts at it and connect your GitHub repo. When something breaks, it investigates, writes two tested fixes and texts you on iMessage or WhatsApp.",
+        "Big companies have on-call rotations and SREs. Indie devs and small teams have an inbox full of error emails and hours of lag. Patchline closes that gap: alert, diagnosis, tested fix, approval from your phone. Reply A and you get a pull request; reply ship and your CI deploys it.",
+      ],
+      highlights: [
+        "Takes alerts from AWS SNS, Sentry or any JSON webhook",
+        "Groups 200 identical errors into one incident",
+        "Reads the stack trace, recent commits and past incidents to find the cause",
+        "Writes a minimal fix and a robust fix, each tested in an isolated VM",
+        "Never pushes to your default branch; secrets are scrubbed before anything reaches the LLM",
+      ],
+      stack: ["TypeScript", "Maritime", "Keiki", "Supermemory", "GitHub"],
+    },
   },
   {
     name: "Radi-AI Bharat",
     description: "AI radiology assistant that analyses X-rays and highlights fracture areas.",
     repo: "https://github.com/iamritupatil/radi-ai-bharat-prototype",
     language: "Jupyter Notebook",
+    overview: {
+      tagline: "AI fracture detection for radiologists: analysis, segmentation and reporting.",
+      about: [
+        "RadiAI Bharat combines computer-vision models with a radiologist dashboard to find, outline and classify fractures in X-ray images.",
+        "It's built to assist radiologists, not replace them: the AI's findings are surfaced for expert review, and a radiologist can modify or override them before the final report is generated.",
+      ],
+      highlights: [
+        "YOLOv8 detection puts bounding boxes around fractures",
+        "UNet segmentation outlines the exact fracture boundary, pixel by pixel",
+        "A CNN classifies fracture type, severity and healing stage",
+        "Dashboard to review findings and add manual annotations",
+        "Generates structured PDF reports",
+      ],
+      stack: ["Python", "PyTorch", "YOLOv8", "FastAPI", "React", "PostgreSQL"],
+    },
   },
   {
     name: "Notchman Community",
@@ -124,17 +171,55 @@ export const allProjects: Repo[] = [
     repo: "https://github.com/iamritupatil/notchman-community",
     site: "https://notchman.app",
     language: "JavaScript",
+    overview: {
+      tagline: "Copy anything. Hear the TL;DR.",
+      about: [
+        "A tiny Shiba that lives on your screen and reads you the short version of long posts, messages, articles and AI answers while you keep working.",
+        "This is the free, open-source edition of Notchman. It runs on your own computer with your own API keys: there's no Notchman server. Windows and macOS.",
+      ],
+      highlights: [
+        "Alt+T: TL;DR of whatever you copied, read aloud",
+        "Alt+R: reads the whole thing",
+        "A small player with play/pause, ±15 seconds and speed",
+        "Free on-device Kokoro voice, or ElevenLabs voices with your key",
+        "Works with Groq, OpenAI, OpenRouter or a local Ollama",
+      ],
+      stack: ["JavaScript", "Electron", "Node.js", "Groq", "Kokoro"],
+    },
   },
   {
     name: "MiniClay AI",
     description: "Turn a prompt into a fine-tuned AI model: data sourcing, cleaning and fine-tuning handled for you.",
     site: "https://www.miniclayai.com/",
+    overview: {
+      tagline: "Turn a prompt into a fine-tuned AI model.",
+      about: [
+        "MiniClay AI takes the hard parts out of building your own model. Describe what you want, and it handles sourcing the data, cleaning it and fine-tuning the model for you.",
+      ],
+      highlights: ["Data sourcing from a prompt", "Automatic dataset cleaning", "Fine-tuning handled end to end"],
+      stack: [],
+    },
   },
   {
     name: "Healthcare Data Normalization Engine",
-    description: "", // TODO: no description on GitHub yet
+    description: "Turns patient records from different healthcare systems into one FHIR-based format, with a traceable history of every change.",
     repo: "https://github.com/iamritupatil/Healthcare-Data-Normalization-Engine",
     language: "Python",
+    overview: {
+      tagline: "Patient records from any system, in one standard FHIR format, without losing a thing.",
+      about: [
+        "Hospitals, clinics and labs send patient data in different shapes, with different field names, date formats, units and codes. This service takes those records through an API or file upload and converts them into one FHIR-based format.",
+        "In an ML dataset you can drop or overwrite a bad value. In healthcare a silently “fixed” value can reach a doctor. So every record is validated, every change is logged, and any normalized value can be traced back to its source. Invalid records are quarantined, never dropped.",
+      ],
+      highlights: [
+        "Normalizes field names, dates, time zones, units and codes into FHIR-lite Patient and Observation records",
+        "Ambiguous dates are quarantined, never guessed",
+        "Full history: the raw payload, every version and a log entry for every changed field",
+        "Finds duplicates and conflicts across systems, without merging people on name and birth date alone",
+        "Organizations isolated with Postgres row-level security; background uploads with retries",
+      ],
+      stack: ["Python", "FastAPI", "Pydantic", "PostgreSQL", "SQLAlchemy", "Docker"],
+    },
   },
   {
     name: "Wispr Max",
