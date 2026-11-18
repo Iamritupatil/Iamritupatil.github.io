@@ -6,7 +6,7 @@ import { playClip } from "@/lib/sfx";
 import styles from "./Lantern.module.css";
 
 const U = 6; // one chain pixel, in CSS px
-const CHAIN = 84; // resting chain length (short), in CSS px
+const CHAIN = 156; // resting chain length, in CSS px
 const MAX_PULL = 90; // how far the chain stretches
 const TRIGGER = 45; // pull past this and let go to switch the lights
 

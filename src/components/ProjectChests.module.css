@@ -43,38 +43,59 @@
   position: fixed;
   inset: 0;
   z-index: 100;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fade 0.2s ease both;
+}
+
+:global(:root[data-theme="light"]) .backdrop {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.center {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
-  animation: fade 0.25s ease both;
+  pointer-events: none;
   zoom: 1.25; /* undo the page's 80% desktop scale */
 }
 
 @media (max-width: 899px) {
-  .backdrop {
+  .center {
     zoom: 1;
   }
 }
 
-:global(:root[data-theme="light"]) .backdrop {
-  background: rgba(255, 255, 255, 0.4);
-}
-
+/* frosted glass, like the email card in the footer */
 .window {
+  pointer-events: auto;
   width: min(720px, 100%);
   max-height: min(820px, calc(100dvh - 48px));
   display: flex;
   flex-direction: column;
   border-radius: 22px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 45%), rgba(16, 16, 16, 0.42);
+  backdrop-filter: blur(26px) saturate(170%);
+  -webkit-backdrop-filter: blur(26px) saturate(170%);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
   overflow: hidden;
-  animation: pop 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+  animation: pop 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+
+:global(:root[data-theme="light"]) .window {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.35) 50%), rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 @keyframes fade {
@@ -96,7 +117,11 @@
   justify-content: space-between;
   gap: 16px;
   padding: 18px 18px 14px 24px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:global(:root[data-theme="light"]) .bar {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 .titleRow {
@@ -272,7 +297,7 @@
   .slot > span:first-child {
     zoom: 0.7;
   }
-  .backdrop {
+  .center {
     padding: 12px;
     align-items: flex-end;
   }

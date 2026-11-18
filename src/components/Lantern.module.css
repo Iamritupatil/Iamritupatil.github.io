@@ -1,6 +1,6 @@
 .lantern {
   display: block;
-  width: 100px;
+  width: 72px;
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -26,7 +26,7 @@
 .chain {
   display: block;
   position: relative;
-  margin-bottom: -12px; /* runs into the lantern's cap */
+  margin-bottom: -8px; /* runs into the lantern's cap */
   transition: height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); /* springs back */
 }
 
@@ -34,14 +34,14 @@
   transition: none;
 }
 
-/* ---- the lantern: Minecraft model, one texture pixel = 11 CSS px ----
+/* ---- the lantern: Minecraft model, one texture pixel = 8 CSS px ----
    body 6 × 7 × 6 pixels, cap 4 × 2 × 4 on top. Seen from slightly above, turned 45°. */
 .model {
-  --px: 11px;
+  --px: 8px;
   position: relative;
   display: block;
-  width: 100px;
-  height: 124px;
+  width: 72px;
+  height: 90px;
   filter: drop-shadow(0 0 12px rgba(255, 176, 66, 0.5)) drop-shadow(0 0 30px rgba(255, 150, 40, 0.22));
   animation: flicker 3.2s ease-in-out infinite;
 }
@@ -49,10 +49,10 @@
 .glow {
   position: absolute;
   left: 50%;
-  top: 66px;
-  width: 190px;
-  height: 190px;
-  margin: -95px 0 0 -95px;
+  top: 49px;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 190, 90, 0.28), rgba(255, 160, 50, 0.08) 45%, transparent 70%);
   pointer-events: none;
@@ -61,7 +61,7 @@
 .scene {
   position: absolute;
   left: 50%;
-  top: 67px; /* centre of the body */
+  top: 49px; /* centre of the body */
   width: 0;
   height: 0;
   transform-style: preserve-3d;
@@ -113,10 +113,7 @@
 .top { transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); }
 .bottom { transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); }
 
-/* light face shading so the cube reads in 3D */
-.right {
-  filter: brightness(0.82);
-}
+/* both visible sides lit the same, so it hangs symmetrical */
 .top {
   filter: brightness(1.12);
 }

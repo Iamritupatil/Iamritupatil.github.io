@@ -1,0 +1,101 @@
+/* Bee model: 7 × 7 × 10 pixels (wide × tall × long), one pixel = 3 CSS px */
+.bee {
+  --u: 3px;
+  --w: calc(var(--u) * 7);
+  --h: calc(var(--u) * 7);
+  --d: calc(var(--u) * 10);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 40; /* above the page, under the project window */
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.shadowless {
+  position: absolute;
+  perspective: 600px;
+  filter: drop-shadow(0 6px 4px rgba(0, 0, 0, 0.25));
+}
+
+.model {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+}
+
+.front,
+.back {
+  width: var(--w);
+  height: var(--h);
+  margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+  backface-visibility: hidden;
+}
+.front { transform: translateZ(calc(var(--d) / 2)); }
+.back { transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); }
+
+.left,
+.right {
+  width: var(--d);
+  height: var(--h);
+  margin: calc(var(--h) / -2) 0 0 calc(var(--d) / -2);
+  backface-visibility: hidden;
+}
+.right { transform: rotateY(90deg) translateZ(calc(var(--w) / 2)); }
+.left { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); }
+
+.top,
+.bottom {
+  width: var(--w);
+  height: var(--d);
+  margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2);
+  backface-visibility: hidden;
+}
+.top { transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); }
+.bottom { transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); }
+
+/* antennae stand up from the top of the face */
+.antennae {
+  width: var(--w);
+  height: calc(var(--u) * 3);
+  margin: calc(var(--h) / -2 - var(--u) * 3) 0 0 calc(var(--w) / -2);
+  transform: translateZ(calc(var(--d) / 2 - var(--u)));
+}
+
+/* wings lie on top of the body, hinged at its middle, flapping fast */
+.wing {
+  width: calc(var(--u) * 7);
+  height: calc(var(--u) * 8);
+  margin-top: calc(var(--u) * -4);
+  opacity: 0.9;
+}
+
+.wingR {
+  transform-origin: 0 50%;
+  animation: flapR 0.14s ease-in-out infinite alternate;
+}
+
+.wingL {
+  margin-left: calc(var(--u) * -7);
+  transform-origin: 100% 50%;
+  animation: flapL 0.14s ease-in-out infinite alternate;
+}
+
+@keyframes flapR {
+  from { transform: translate3d(0, calc(var(--h) / -2), calc(var(--u) * -1)) rotateZ(-8deg) rotateX(90deg); }
+  to { transform: translate3d(0, calc(var(--h) / -2), calc(var(--u) * -1)) rotateZ(-40deg) rotateX(90deg); }
+}
+
+@keyframes flapL {
+  from { transform: translate3d(0, calc(var(--h) / -2), calc(var(--u) * -1)) rotateZ(8deg) rotateX(90deg); }
+  to { transform: translate3d(0, calc(var(--h) / -2), calc(var(--u) * -1)) rotateZ(40deg) rotateX(90deg); }
+}
