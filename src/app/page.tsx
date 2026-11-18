@@ -4,7 +4,6 @@ import Work from "@/components/Work";
 import Contributions from "@/components/Contributions";
 import ProjectCard from "@/components/ProjectCard";
 import { projects, routes } from "@/data/content";
-import Campfire from "@/components/Campfire";
 import Lantern from "@/components/Lantern";
 import Footer from "@/components/Footer";
 import AgentView from "@/components/AgentView";
@@ -33,7 +32,7 @@ export default function Home() {
               All projects <span aria-hidden>→</span>
             </a>
           </section>
-          <Campfire className={styles.slotLarge} />
+          <img className={styles.steps} src="/images/steps.jpg" alt="Small steps everyday" width={735} height={212} />
         </div>
       </main>
       <Footer />

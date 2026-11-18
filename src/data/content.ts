@@ -231,12 +231,6 @@ export const allProjects: Repo[] = [
 // Projects page: the six chests under "Top Projects", in order
 export const topProjects: Repo[] = allProjects.filter((p) => p.name !== "Wispr Max");
 
-// Cozy scene just above the footer. An animated .gif/.webp or an .mp4/.webm also works here.
-export const campfire = {
-  src: "/images/campfire.webp",
-  alt: "Snowy pixel campfire with a sleeping fox",
-};
-
 export const contact = {
   email: "ritu.patil.dilip@gmail.com",
   copyright: "© 2026 Ritu Patil",

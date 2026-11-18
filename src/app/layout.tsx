@@ -21,10 +21,10 @@ export const metadata: Metadata = {
   // profile photo; the ?v= makes browsers drop any favicon they cached before
   icons: {
     icon: [
-      { url: "/icon.png?v=2", type: "image/png", sizes: "192x192" },
-      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/icon.png?v=3", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
     ],
-    apple: "/apple-touch-icon.png?v=2",
+    apple: "/apple-touch-icon.png?v=3",
   },
 };
 
