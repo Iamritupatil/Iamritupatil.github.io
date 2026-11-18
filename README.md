@@ -7,6 +7,9 @@ npm install
 npm run dev     # http://localhost:3000
 ```
 
+**Live site:** https://ritupatil.me (GitHub Pages, repo `Iamritupatil.github.io`, branch `main`).
+Publish changes with `scripts/deploy-pages.sh path/to/Iamritupatil.github.io`.
+
 ## Where to edit
 
 | What | File |
