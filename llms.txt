@@ -3,7 +3,7 @@
 > Founder and AI engineer building backend systems, developer infrastructure and AI products. Based in Surat, India.
 
 ## Work
-- Now: Founding Engineer at Medvora AI (https://medvora.ai/)
+- Now: Founding AI Engineer at Medvora AI (https://medvora.ai/)
 - Before: Founder & AI Engineer at MiniClay AI (https://www.miniclayai.com/)
 - Before: Robotics Researcher at Virtuaze
 
